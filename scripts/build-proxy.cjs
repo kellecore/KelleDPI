@@ -22,10 +22,9 @@ if (!fs.existsSync(spoofdpiDir)) {
 }
 
 console.log('Building SpoofDPI (kelle-proxy) with release flags...');
-const go = spawnSync('go', ['build', '-trimpath', '-ldflags=-s -w', '-o', outExe, './cmd/spoofdpi'], {
+const go = spawnSync('go', ['build', '-trimpath', '-ldflags', '-s -w', '-o', outExe, './cmd/spoofdpi'], {
   cwd: spoofDpiDir,
   stdio: 'inherit',
-  shell: true,
 });
 
 if (go.status !== 0) {

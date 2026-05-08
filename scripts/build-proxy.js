@@ -25,7 +25,6 @@ console.log('Building SpoofDPI (kelle-proxy)...');
 const go = spawnSync('go', ['build', '-o', outExe, './cmd/spoofdpi'], {
   cwd: spoofDpiDir,
   stdio: 'inherit',
-  shell: true,
 });
 
 if (go.status !== 0) {
