@@ -579,7 +579,6 @@ function App() {
     isRetrying.current = false;
 
     try {
-      // ✅ Yeni 3-mod timeout sistemi: 0=Turbo, 1=Dengeli, 2=Güçlü
       const TIMEOUT_MS = DPI_TIMEOUTS[configRef.current.dpiMethod] ?? 5000;
 
       const listenAddr = `${bindAddr}:${port}`;
@@ -608,7 +607,6 @@ function App() {
         args.unshift("--clean");
       }
 
-      // IPv4 Zorlaması (Sende çalışan stabil yapı)
       if (configRef.current.ipv4Only !== false) {
         args.push("--dns-qtype", "ipv4");
       } else {
