@@ -21,6 +21,12 @@ if (!fs.existsSync(spoofdpiDir)) {
   fs.mkdirSync(spoofdpiDir, { recursive: true });
 }
 
+const connPath = path.join(spoofDpiDir, 'internal', 'netutil', 'conn.go');
+if (process.platform === 'win32' && fs.existsSync(connPath)) {
+  const conn = fs.readFileSync(connPath, 'utf8');
+  fs.writeFileSync(connPath, conn.replace('syscall.SetsockoptInt(int(fd),', 'syscall.SetsockoptInt(syscall.Handle(fd),'), 'utf8');
+}
+
 console.log('Building SpoofDPI (kelle-proxy) with release flags...');
 const go = spawnSync('go', ['build', '-trimpath', '-ldflags', '-s -w', '-o', outExe, './cmd/spoofdpi'], {
   cwd: spoofDpiDir,
