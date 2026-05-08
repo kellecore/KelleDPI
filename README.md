@@ -4,6 +4,8 @@
 
 <h1 align="center">BypaxDPI</h1>
 
+> Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows) projesinden klonlanarak geliştirilmiştir.
+
 <p align="center">
   <b>Discord ve internet erişim engellerini aşmak için tasarlanmış; askeri düzeyde çökmeye karşı dayanıklı (Anti-Crash), modern ve çok yönlü Yerel Proxy & DPI Bypass aracı.</b>
 </p>

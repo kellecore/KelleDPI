@@ -117,6 +117,8 @@ const translations = {
     logPortRetry: (count) => `Port çakışması, yeni port deneniyor... (${count}/20)`,
     logNoPort: 'Uygun port bulunamadı.',
     logWinHttpEnabled: 'Oyun Modu (WinHTTP) proxy tüneli uygulandı.',
+    logDpiBlacklistEnabled: (count) => `DPI blacklist aktif: ${count} domain için özel bypass kuralı uygulanıyor.`,
+    logDpiBlacklistEmpty: 'DPI blacklist açık ama geçerli domain yok; normal mod kullanılıyor.',
     logWpcapMissing: 'SpoofDPI, wpcap.dll kütüphanesini bulamadı. Lütfen Npcap veya WinPcap kurun ve ardından uygulamayı yeniden başlatın.',
     logAntivirusWarning: 'Windows Defender veya antivirüs yazılımınız \'bypax-proxy.exe\' dosyasını engellemiş olabilir. Lütfen dosyayı antivirüs dışlama listesine (exclusion) ekleyin.',
 
@@ -232,6 +234,10 @@ const translations = {
     ipv4ForceDesc: 'Sonsuz yükleme ve Zaman Aşımı (Timeout) hatalarını engeller.',
     winHttpForceTitle: 'Oyun Modu (WinHTTP Proxy)',
     winHttpForceDesc: 'C++ ile yazılmış masaüstü oyunların ve servislerin arka planda DPI engelini aşmasını sağlar.',
+    dpiBlacklistTitle: 'DPI Blacklist / Custom List',
+    dpiBlacklistDesc: 'Bu domainlere özel güçlü DPI bypass kuralı uygular.',
+    dpiBlacklistCount: (count) => `${count} geçerli domain`,
+    dpiBlacklistReset: 'VARSAYILANA DÖN',
 
     // Gelişmiş (Npcap)
     sectionAdvancedNpcap: 'GELİŞMİŞ AYARLAR',
@@ -403,6 +409,8 @@ const translations = {
     logPortRetry: (count) => `Port conflict, trying new port... (${count}/20)`,
     logNoPort: 'No available port found.',
     logWinHttpEnabled: 'Game Mode (WinHTTP) proxy tunnel applied.',
+    logDpiBlacklistEnabled: (count) => `DPI blacklist active: applying custom bypass rule for ${count} domains.`,
+    logDpiBlacklistEmpty: 'DPI blacklist is enabled but no valid domains were found; normal mode is used.',
     logWpcapMissing: 'SpoofDPI could not find wpcap.dll. Please install Npcap or WinPcap, then restart the application.',
     logAntivirusWarning: 'Windows Defender or your antivirus software may have blocked \'bypax-proxy.exe\'. Please add the file to your antivirus exclusion list.',
 
@@ -518,6 +526,10 @@ const translations = {
     ipv4ForceDesc: 'Prevents infinite loading and timeout errors.',
     winHttpForceTitle: 'Game Mode (WinHTTP Proxy)',
     winHttpForceDesc: 'Forces C++ desktop games and background services to bypass DPI through the proxy.',
+    dpiBlacklistTitle: 'DPI Blacklist / Custom List',
+    dpiBlacklistDesc: 'Applies a stronger DPI bypass rule to these domains.',
+    dpiBlacklistCount: (count) => `${count} valid domains`,
+    dpiBlacklistReset: 'RESET DEFAULTS',
 
     // Advanced (Npcap)
     sectionAdvancedNpcap: 'ADVANCED SETTINGS',

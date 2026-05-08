@@ -1182,6 +1182,100 @@ fn exempt_all_uwp_apps() {
     });
 }
 
+fn is_valid_blacklist_domain(domain: &str) -> bool {
+    let labels: Vec<&str> = domain.split('.').collect();
+    if labels.len() < 2 || domain.len() > 253 {
+        return false;
+    }
+
+    labels.iter().all(|label| {
+        !label.is_empty()
+            && label.len() <= 63
+            && !label.starts_with('-')
+            && !label.ends_with('-')
+            && label
+                .chars()
+                .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
+    })
+}
+
+fn toml_escape(value: &str) -> String {
+    value.replace('\\', "\\\\").replace('"', "\\\"")
+}
+
+fn build_dpi_blacklist_config(domains: &[String]) -> Result<String, String> {
+    let mut cleaned: Vec<String> = Vec::new();
+    for domain in domains {
+        let domain = domain.trim().to_ascii_lowercase();
+        if !is_valid_blacklist_domain(&domain) {
+            return Err(format!("Geçersiz domain: {}", domain));
+        }
+        if !cleaned.contains(&domain) {
+            cleaned.push(domain);
+        }
+    }
+
+    if cleaned.is_empty() {
+        return Err("DPI blacklist listesi boş.".to_string());
+    }
+
+    if cleaned.len() > 100 {
+        return Err("DPI blacklist en fazla 100 domain içerebilir.".to_string());
+    }
+
+    let mut patterns: Vec<String> = Vec::new();
+    for domain in cleaned {
+        patterns.push(domain.clone());
+        patterns.push(format!("*.{}", domain));
+    }
+
+    let domains_toml = patterns
+        .iter()
+        .map(|domain| format!("\"{}\"", toml_escape(domain)))
+        .collect::<Vec<_>>()
+        .join(", ");
+
+    Ok(format!(
+        "[[rules]]\nname = \"dpi blacklist\"\npriority = 100\nmatch = {{ domain = [{}] }}\nhttps = {{ split-mode = \"chunk\", chunk-size = 1, fake-count = 3 }}\n",
+        domains_toml
+    ))
+}
+
+#[tauri::command]
+fn write_dpi_blacklist_config(domains: Vec<String>) -> Result<String, String> {
+    let config = build_dpi_blacklist_config(&domains)?;
+    let path = std::env::temp_dir().join("bypaxdpi_spoofdpi_blacklist.toml");
+    std::fs::write(&path, config).map_err(|e| e.to_string())?;
+    Ok(path.to_string_lossy().to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn dpi_blacklist_config_contains_exact_and_wildcard_domains() {
+        let config =
+            build_dpi_blacklist_config(&vec!["discord.com".to_string(), "roblox.com".to_string()])
+                .unwrap();
+
+        assert!(config.contains("[[rules]]"));
+        assert!(config.contains("\"discord.com\""));
+        assert!(config.contains("\"*.discord.com\""));
+        assert!(config.contains("\"roblox.com\""));
+        assert!(config.contains("\"*.roblox.com\""));
+        assert!(config.contains("split-mode = \"chunk\""));
+        assert!(config.contains("chunk-size = 1"));
+        assert!(config.contains("fake-count = 3"));
+    }
+
+    #[test]
+    fn dpi_blacklist_config_rejects_invalid_domains() {
+        let result = build_dpi_blacklist_config(&vec!["bad domain".to_string()]);
+        assert!(result.is_err());
+    }
+}
+
 #[tauri::command]
 fn set_system_proxy(port: u16, enable_winhttp: bool) -> Result<(), String> {
     let _guard = acquire_proxy_lock(); // P0-FIX-3: Poisoned mutex recovery
@@ -1647,6 +1741,7 @@ pub fn run() {
             check_admin,
             check_port_open,
             get_sidecar_config,
+            write_dpi_blacklist_config,
             start_pac_server,
             stop_pac_server,
             kill_zombie_sidecar,

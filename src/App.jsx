@@ -8,6 +8,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { getTranslations } from "./i18n";
 import { DNS_MAP, DOH_MAP, URLS, APP, RETRY_DELAYS, DPI_TIMEOUTS } from "./constants";
 import { ISP_PROFILES, VALID_CHUNK_SIZES, VALID_DPI_METHODS, DEFAULT_CHUNKS } from "./profiles";
+import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from "./dpiBlacklist";
 
 // Re-add missing imports
 import DOMPurify from "dompurify";
@@ -160,6 +161,8 @@ function App() {
       httpsChunkSize: 1,
       ipv4Only: true,
       selectedIspProfile: "heavy",
+      dpiBlacklistEnabled: false,
+      dpiBlacklistText: DEFAULT_DPI_BLACKLIST_TEXT,
     };
 
     const saved = localStorage.getItem("bypax_config");
@@ -181,6 +184,8 @@ function App() {
           dpiMethod: ['0', '1', '2'].includes(String(parsed.dpiMethod)) ? String(parsed.dpiMethod) : defaultSettings.dpiMethod,
           httpsChunkSize: [1, 2, 4, 8, 16, 32, 64, 128].includes(Number(parsed.httpsChunkSize)) ? Number(parsed.httpsChunkSize) : defaultSettings.httpsChunkSize,
           selectedDns: typeof parsed.selectedDns === 'string' ? parsed.selectedDns : defaultSettings.selectedDns,
+          dpiBlacklistText: typeof parsed.dpiBlacklistText === 'string' ? parsed.dpiBlacklistText : defaultSettings.dpiBlacklistText,
+          dpiBlacklistEnabled: typeof parsed.dpiBlacklistEnabled === 'boolean' ? parsed.dpiBlacklistEnabled : defaultSettings.dpiBlacklistEnabled,
         };
       } catch (e) {
         console.error("Failed to parse config:", e);
@@ -216,6 +221,8 @@ function App() {
   const prevDnsModeRef = useRef(config.dnsMode);
   const prevEnableWinhttpRef = useRef(config.enableWinhttp !== false);
   const prevIpv4OnlyRef = useRef(config.ipv4Only !== false);
+  const prevDpiBlacklistEnabledRef = useRef(config.dpiBlacklistEnabled || false);
+  const prevDpiBlacklistTextRef = useRef(config.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT);
 
   // DNS_MAP ve DOH_MAP artık component dışında tanımlı (yukarıda)
 
@@ -578,12 +585,28 @@ function App() {
       const listenAddr = `${bindAddr}:${port}`;
 
       const args =[
-        "--clean", 
         "--listen-addr", listenAddr,
         "--timeout", TIMEOUT_MS.toString(),
         "--silent",
         "--log-level", "info",
       ];
+
+      if (configRef.current.dpiBlacklistEnabled) {
+        const dpiBlacklistDomains = normalizeDpiBlacklistText(configRef.current.dpiBlacklistText);
+        if (dpiBlacklistDomains.length > 0) {
+          const configPath = await invoke("write_dpi_blacklist_config", { domains: dpiBlacklistDomains });
+          args.push("--config", configPath);
+          addLog(t.logDpiBlacklistEnabled(dpiBlacklistDomains.length), "info", {
+            i18nKey: "logDpiBlacklistEnabled",
+            i18nParams: [dpiBlacklistDomains.length],
+          });
+        } else {
+          args.unshift("--clean");
+          addLog(t.logDpiBlacklistEmpty, "warn", { i18nKey: "logDpiBlacklistEmpty" });
+        }
+      } else {
+        args.unshift("--clean");
+      }
 
       // IPv4 Zorlaması (Sende çalışan stabil yapı)
       if (configRef.current.ipv4Only !== false) {
@@ -1137,13 +1160,17 @@ function App() {
     const chunkSize = config.httpsChunkSize ?? 4;
     const winhttp = config.enableWinhttp !== false;
     const ipv4 = config.ipv4Only !== false;
+    const dpiBlacklistEnabled = config.dpiBlacklistEnabled || false;
+    const dpiBlacklistText = config.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT;
     if (
       prevDpiMethodRef.current === config.dpiMethod &&
       prevChunkSizeRef.current === chunkSize &&
       prevSelectedDnsRef.current === config.selectedDns &&
       prevDnsModeRef.current === config.dnsMode &&
       prevEnableWinhttpRef.current === winhttp &&
-      prevIpv4OnlyRef.current === ipv4
+      prevIpv4OnlyRef.current === ipv4 &&
+      prevDpiBlacklistEnabledRef.current === dpiBlacklistEnabled &&
+      prevDpiBlacklistTextRef.current === dpiBlacklistText
     )
       return;
     prevDpiMethodRef.current = config.dpiMethod;
@@ -1152,6 +1179,8 @@ function App() {
     prevDnsModeRef.current = config.dnsMode;
     prevEnableWinhttpRef.current = winhttp;
     prevIpv4OnlyRef.current = ipv4;
+    prevDpiBlacklistEnabledRef.current = dpiBlacklistEnabled;
+    prevDpiBlacklistTextRef.current = dpiBlacklistText;
 
     if (!isConnected || isRestartingDpi.current) return;
     isRestartingDpi.current = true;
@@ -1181,7 +1210,7 @@ function App() {
       setIsProcessing(true);
       startEngine(0);
     }, 2500); // Portun serbest kalması için (SpoofDPI 1.2.1 / TIME_WAIT)
-  }, [config.dpiMethod, config.httpsChunkSize, config.selectedDns, config.dnsMode, config.enableWinhttp, config.ipv4Only, isConnected]);
+  }, [config.dpiMethod, config.httpsChunkSize, config.selectedDns, config.dnsMode, config.enableWinhttp, config.ipv4Only, config.dpiBlacklistEnabled, config.dpiBlacklistText, isConnected]);
 
   useEffect(() => {
     // Initial cleanup on mount

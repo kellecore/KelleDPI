@@ -11,6 +11,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { getTranslations, SUPPORTED_LANGUAGES } from './i18n';
 import { URLS } from './constants';
 import { ISP_PROFILES, CHUNK_SIZES, DEFAULT_CHUNKS } from './profiles';
+import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from './dpiBlacklist';
 import './App.css';
 
 const Toggle = ({ checked, onChange }) => (
@@ -53,6 +54,10 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
 
   const lang = config.language || 'tr';
   const t = getTranslations(lang);
+  const dpiBlacklistDomains = useMemo(
+    () => normalizeDpiBlacklistText(config.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT),
+    [config.dpiBlacklistText],
+  );
 
   // DNS Providers with translations
   // P2-FIX: Bellek sızıntısı önlendi - Her renderda tekrardan oluşmasını engelledik
@@ -700,6 +705,63 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                       <p>{t.winHttpForceDesc}</p>
                     </div>
                     <Toggle checked={config.enableWinhttp !== false} onChange={(v) => updateConfig('enableWinhttp', v)} />
+                  </div>
+
+                  <div className="v2-divider" style={{ margin: 0 }} />
+
+                  <div className="v2-item" style={{ padding: '1rem', alignItems: 'flex-start' }}>
+                    <div className="v2-icon" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', marginTop: 2 }}>
+                      <Shield size={20} />
+                    </div>
+                    <div className="v2-item-text" style={{ gap: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                        <div>
+                          <h3 style={{ color: '#d8b4fe' }}>{t.dpiBlacklistTitle}</h3>
+                          <p>{t.dpiBlacklistDesc}</p>
+                        </div>
+                        <Toggle checked={config.dpiBlacklistEnabled || false} onChange={(v) => updateConfig('dpiBlacklistEnabled', v)} />
+                      </div>
+                      <textarea
+                        value={config.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT}
+                        onChange={(e) => updateConfig('dpiBlacklistText', e.target.value)}
+                        spellCheck={false}
+                        style={{
+                          width: '100%',
+                          minHeight: 116,
+                          resize: 'vertical',
+                          background: 'rgba(15, 23, 42, 0.75)',
+                          color: '#e5e7eb',
+                          border: '1px solid rgba(148, 163, 184, 0.22)',
+                          borderRadius: 8,
+                          padding: '10px 12px',
+                          fontSize: '0.78rem',
+                          lineHeight: 1.45,
+                          outline: 'none',
+                          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+                        }}
+                      />
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                        <span style={{ color: '#94a3b8', fontSize: '0.72rem' }}>
+                          {t.dpiBlacklistCount(dpiBlacklistDomains.length)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => updateConfig('dpiBlacklistText', DEFAULT_DPI_BLACKLIST_TEXT)}
+                          style={{
+                            border: '1px solid rgba(168, 85, 247, 0.25)',
+                            background: 'rgba(168, 85, 247, 0.1)',
+                            color: '#d8b4fe',
+                            borderRadius: 7,
+                            padding: '7px 10px',
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {t.dpiBlacklistReset}
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                 </div>

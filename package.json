@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "npm run update-proxy-icon && vite build",
     "preview": "vite preview",
+    "test": "node --test src/dpiBlacklist.test.js",
     "tauri": "tauri",
     "update-proxy-icon": "node change-icon.js",
     "copy-proxy": "node scripts/copy-proxy.cjs",
