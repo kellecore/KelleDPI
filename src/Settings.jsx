@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ChevronLeft, ChevronDown, Globe, Power, Zap, RotateCw, Activity, Pin,
-  Youtube, Coffee, AlertTriangle, Check, Wrench, Languages, Bell, Shield, Settings as SettingsIcon
+  ChevronLeft, ChevronDown, Globe, Power, Zap, RotateCw, Activity, Pin,  AlertTriangle, Check, Wrench, Languages, Bell, Shield, Settings as SettingsIcon
 } from 'lucide-react';
 import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart';
 import { Command } from '@tauri-apps/plugin-shell';
-import { openUrl } from '@tauri-apps/plugin-opener';
 import { invoke } from '@tauri-apps/api/core';
 import { getTranslations, SUPPORTED_LANGUAGES } from './i18n';
-import { URLS } from './constants';
 import { ISP_PROFILES, CHUNK_SIZES, DEFAULT_CHUNKS } from './profiles';
 import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from './kelleDpiBlacklist';
 import './App.css';
@@ -210,7 +207,7 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                       <div 
                         className={`v2-item hover-effect ${lang === l.code ? 'v2-selected' : ''}`}
                         style={{ 
-                          background: lang === l.code ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
+                          background: lang === l.code ? 'rgba(249, 115, 22, 0.1)' : 'transparent',
                           opacity: lang === l.code ? 1 : 0.6,
                           cursor: 'pointer',
                           transition: 'all 0.2s ease',
@@ -218,12 +215,12 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                         }}
                         onClick={() => updateConfig('language', l.code)}
                       >
-                        <div className="v2-icon blue" style={{ background: lang === l.code ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)', width: '36px', height: '36px', borderRadius: '10px' }}>
+                        <div className="v2-icon blue" style={{ background: lang === l.code ? 'rgba(249, 115, 22, 0.2)' : 'rgba(255, 255, 255, 0.05)', width: '36px', height: '36px', borderRadius: '10px' }}>
                           <span style={{ fontSize: '1.2rem', lineHeight: '1' }}>{l.flag}</span>
                         </div>
                         <div className="v2-item-text">
-                          <h3 style={{ color: lang === l.code ? '#60a5fa' : '#e2e8f0', fontSize: '0.95rem' }}>{l.name}</h3>
-                          <p style={{ fontSize: '0.75rem', color: lang === l.code ? '#93c5fd' : '#71717a', marginTop: '2px' }}>
+                          <h3 style={{ color: lang === l.code ? '#fb923c' : '#e2e8f0', fontSize: '0.95rem' }}>{l.name}</h3>
+                          <p style={{ fontSize: '0.75rem', color: lang === l.code ? '#fed7aa' : '#71717a', marginTop: '2px' }}>
                              {l.code.toUpperCase() === 'EN' ? 'EN' : l.code.toUpperCase()}
                           </p>
                         </div>
@@ -481,14 +478,14 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                     {/* Dengeli Mod */}
                     <div 
                       className={`v2-item hover-effect ${config.dpiMethod === '1' ? 'v2-selected' : ''}`}
-                      style={{ background: config.dpiMethod === '1' ? 'rgba(34, 197, 94, 0.1)' : 'transparent', opacity: config.dpiMethod === '1' ? 1 : 0.5, cursor: 'pointer', transition: 'all 0.2s ease' }}
+                      style={{ background: config.dpiMethod === '1' ? 'rgba(245, 158, 11, 0.1)' : 'transparent', opacity: config.dpiMethod === '1' ? 1 : 0.5, cursor: 'pointer', transition: 'all 0.2s ease' }}
                       onClick={() => { updateConfig({ dpiMethod: '1', httpsChunkSize: 2, selectedIspProfile: 'custom' }); }}
                     >
-                      <div className="v2-icon green" style={{ background: config.dpiMethod === '1' ? 'rgba(34, 197, 94, 0.2)' : '' }}>
+                      <div className="v2-icon green" style={{ background: config.dpiMethod === '1' ? 'rgba(245, 158, 11, 0.2)' : '' }}>
                         <Zap size={20} className={config.dpiMethod === '1' ? 'active-icon' : ''} />
                       </div>
                       <div className="v2-item-text">
-                        <h3 style={{ color: config.dpiMethod === '1' ? '#4ade80' : '' }}>{t.modeBalancedName}</h3>
+                        <h3 style={{ color: config.dpiMethod === '1' ? '#f59e0b' : '' }}>{t.modeBalancedName}</h3>
                         <p>{t.modeBalancedDesc}</p>
                       </div>
                       <div className={`v2-radio ${config.dpiMethod === '1' ? 'on' : ''}`}>
@@ -502,18 +499,18 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                     <div 
                       className={`v2-item hover-effect ${config.dpiMethod === '2' ? 'v2-selected' : ''}`}
                       style={{ 
-                        background: config.dpiMethod === '2' ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
+                        background: config.dpiMethod === '2' ? 'rgba(249, 115, 22, 0.1)' : 'transparent',
                         opacity: config.dpiMethod === '2' ? 1 : 0.5,
                         cursor: 'pointer',
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => { updateConfig({ dpiMethod: '2', httpsChunkSize: 1, selectedIspProfile: 'custom' }); }}
                     >
-                      <div className="v2-icon blue" style={{ background: config.dpiMethod === '2' ? 'rgba(59, 130, 246, 0.2)' : '' }}>
+                      <div className="v2-icon blue" style={{ background: config.dpiMethod === '2' ? 'rgba(249, 115, 22, 0.2)' : '' }}>
                         <Shield size={20} className={config.dpiMethod === '2' ? 'active-icon' : ''} />
                       </div>
                       <div className="v2-item-text">
-                        <h3 style={{ color: config.dpiMethod === '2' ? '#60a5fa' : '' }}>{t.modeStrongName}</h3>
+                        <h3 style={{ color: config.dpiMethod === '2' ? '#fb923c' : '' }}>{t.modeStrongName}</h3>
                         <p>{t.modeStrongDesc}</p>
                       </div>
                       <div className={`v2-radio ${config.dpiMethod === '2' ? 'on' : ''}`}>
@@ -538,11 +535,11 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                                 className="v2-item" 
                                 style={{ padding: 0 }}
                               >
-                                <div className="v2-icon" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7', width: '32px', height: '32px', minWidth: '32px' }}>
+                                <div className="v2-icon" style={{ background: 'rgba(249, 115, 22, 0.15)', color: '#f97316', width: '32px', height: '32px', minWidth: '32px' }}>
                                   <Shield size={16} />
                                 </div>
                                 <div className="v2-item-text">
-                                  <h3 style={{ color: config.advancedBypass !== false ? '#d8b4fe' : '', fontSize: '0.85rem' }}>{t.advancedFeaturesToggle}</h3>
+                                  <h3 style={{ color: config.advancedBypass !== false ? '#fdba74' : '', fontSize: '0.85rem' }}>{t.advancedFeaturesToggle}</h3>
                                   <p style={{ fontSize: '0.7rem' }}>{t.advancedFeaturesToggleDesc}</p>
                                 </div>
                                 <Toggle checked={config.advancedBypass !== false} onChange={(v) => updateConfig('advancedBypass', v)} />
@@ -649,8 +646,8 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                           {CHUNK_SIZES.map((opt) => {
                             const fallbackChunk = DEFAULT_CHUNKS[config.dpiMethod] || 2;
                             const isSelected = Number(config.httpsChunkSize || fallbackChunk) === opt.value;
-                            const accentColor = config.dpiMethod === '2' ? '#60a5fa' : '#4ade80';
-                            const accentBg = config.dpiMethod === '2' ? 'rgba(59, 130, 246, 0.18)' : 'rgba(34, 197, 94, 0.18)';
+                            const accentColor = config.dpiMethod === '2' ? '#fb923c' : '#f59e0b';
+                            const accentBg = config.dpiMethod === '2' ? 'rgba(249, 115, 22, 0.18)' : 'rgba(245, 158, 11, 0.18)';
                             return (
                               <button
                                 key={opt.value}
@@ -693,11 +690,11 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
 
                   {/* YENİ: WinHTTP OYUN MODU TOGGLE'I */}
                   <div className="v2-item" style={{ padding: '1rem' }}>
-                    <div className="v2-icon" style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa' }}>
-                       <Youtube size={20} />
+                    <div className="v2-icon" style={{ background: 'rgba(249, 115, 22, 0.15)', color: '#fb923c' }}>
+                       <Globe size={20} />
                     </div>
                     <div className="v2-item-text">
-                      <h3 style={{ color: '#93c5fd' }}>{t.winHttpForceTitle}</h3>
+                      <h3 style={{ color: '#fed7aa' }}>{t.winHttpForceTitle}</h3>
                       <p>{t.winHttpForceDesc}</p>
                     </div>
                     <Toggle checked={config.enableWinhttp !== false} onChange={(v) => updateConfig('enableWinhttp', v)} />
@@ -706,57 +703,72 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                   <div className="v2-divider" style={{ margin: 0 }} />
 
                   <div className="v2-item" style={{ padding: '1rem', alignItems: 'flex-start' }}>
-                    <div className="v2-icon" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', marginTop: 2 }}>
+                    <div className="v2-icon" style={{ background: 'rgba(249, 115, 22, 0.15)', color: '#fb923c', marginTop: 2 }}>
                       <Shield size={20} />
                     </div>
-                    <div className="v2-item-text" style={{ gap: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                        <div>
-                          <h3 style={{ color: '#d8b4fe' }}>{t.dpiBlacklistTitle}</h3>
+                    <div className="v2-item-text" style={{ gap: 8, flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, width: '100%' }}>
+                        <div style={{ minWidth: 0 }}>
+                          <h3 style={{ color: '#fdba74' }}>{t.dpiBlacklistTitle}</h3>
                           <p>{t.dpiBlacklistDesc}</p>
                         </div>
                         <Toggle checked={config.dpiBlacklistEnabled || false} onChange={(v) => updateConfig('dpiBlacklistEnabled', v)} />
                       </div>
-                      <textarea
-                        value={config.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT}
-                        onChange={(e) => updateConfig('dpiBlacklistText', e.target.value)}
-                        spellCheck={false}
-                        style={{
-                          width: '100%',
-                          minHeight: 116,
-                          resize: 'vertical',
-                          background: 'rgba(15, 23, 42, 0.75)',
-                          color: '#e5e7eb',
-                          border: '1px solid rgba(148, 163, 184, 0.22)',
-                          borderRadius: 8,
-                          padding: '10px 12px',
-                          fontSize: '0.78rem',
-                          lineHeight: 1.45,
-                          outline: 'none',
-                          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
-                        }}
-                      />
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-                        <span style={{ color: '#94a3b8', fontSize: '0.72rem' }}>
-                          {t.dpiBlacklistCount(dpiBlacklistDomains.length)}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => updateConfig('dpiBlacklistText', DEFAULT_DPI_BLACKLIST_TEXT)}
-                          style={{
-                            border: '1px solid rgba(168, 85, 247, 0.25)',
-                            background: 'rgba(168, 85, 247, 0.1)',
-                            color: '#d8b4fe',
-                            borderRadius: 7,
-                            padding: '7px 10px',
-                            fontSize: '0.72rem',
-                            fontWeight: 700,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {t.dpiBlacklistReset}
-                        </button>
-                      </div>
+                      <AnimatePresence initial={false}>
+                        {config.dpiBlacklistEnabled && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.18 }}
+                            style={{ overflow: 'hidden', width: '100%' }}
+                          >
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingTop: 8, width: '100%' }}>
+                              <textarea
+                                value={config.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT}
+                                onChange={(e) => updateConfig('dpiBlacklistText', e.target.value)}
+                                spellCheck={false}
+                                style={{
+                                  width: '100%',
+                                  minHeight: 116,
+                                  maxHeight: 190,
+                                  resize: 'vertical',
+                                  background: 'rgba(15, 23, 42, 0.75)',
+                                  color: '#e5e7eb',
+                                  border: '1px solid rgba(249, 115, 22, 0.25)',
+                                  borderRadius: 8,
+                                  padding: '10px 12px',
+                                  fontSize: '0.78rem',
+                                  lineHeight: 1.45,
+                                  outline: 'none',
+                                  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+                                }}
+                              />
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                                <span style={{ color: '#94a3b8', fontSize: '0.72rem' }}>
+                                  {t.dpiBlacklistCount(dpiBlacklistDomains.length)}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => updateConfig('dpiBlacklistText', DEFAULT_DPI_BLACKLIST_TEXT)}
+                                  style={{
+                                    border: '1px solid rgba(249, 115, 22, 0.28)',
+                                    background: 'rgba(249, 115, 22, 0.1)',
+                                    color: '#fdba74',
+                                    borderRadius: 7,
+                                    padding: '7px 10px',
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {t.dpiBlacklistReset}
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
 
@@ -770,11 +782,11 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                 <div className="v2-section-title">{t.sectionNetwork}</div>
                 <div className="v2-card">
                   <div className="v2-item">
-                    <div className="v2-icon purple" style={{ background: 'rgba(168, 85, 247, 0.2)', color: '#a855f7' }}>
+                    <div className="v2-icon purple" style={{ background: 'rgba(249, 115, 22, 0.2)', color: '#f97316' }}>
                       <Globe size={20} />
                     </div>
                     <div className="v2-item-text">
-                      <h3 style={{ color: '#d8b4fe' }}>{t.lanSharing}</h3>
+                      <h3 style={{ color: '#fdba74' }}>{t.lanSharing}</h3>
                       <p>{t.lanSharingDesc}</p>
                     </div>
                     <Toggle checked={config.lanSharing || false} onChange={(v) => updateConfig('lanSharing', v)} />
@@ -833,9 +845,9 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: '8px',
-                          background: isChecking ? 'rgba(59, 130, 246, 0.05)' : 'rgba(59, 130, 246, 0.1)',
-                          color: isChecking ? '#93c5fd' : '#60a5fa',
-                          border: '1px solid rgba(59, 130, 246, 0.2)',
+                          background: isChecking ? 'rgba(249, 115, 22, 0.05)' : 'rgba(249, 115, 22, 0.1)',
+                          color: isChecking ? '#fed7aa' : '#fb923c',
+                          border: '1px solid rgba(249, 115, 22, 0.2)',
                           padding: '10px 0',
                           borderRadius: '8px',
                           fontSize: '0.85rem',
@@ -843,8 +855,8 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                           cursor: isChecking ? 'wait' : 'pointer',
                           transition: 'all 0.2s ease'
                         }}
-                        onMouseEnter={(e) => { if(!isChecking) e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)' }}
-                        onMouseLeave={(e) => { if(!isChecking) e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)' }}
+                        onMouseEnter={(e) => { if(!isChecking) e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)' }}
+                        onMouseLeave={(e) => { if(!isChecking) e.currentTarget.style.background = 'rgba(249, 115, 22, 0.1)' }}
                       >
                         {isChecking ? <RotateCw size={16} className="spin" /> : <Activity size={16} />}
                         {isChecking ? t.dnsChecking : t.dnsCheckSpeed}
@@ -916,7 +928,7 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                 <div className="v2-card">
                   
                   <div className="v2-item">
-                    <div className="v2-icon blue" style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa' }}><Bell size={20} /></div>
+                    <div className="v2-icon blue" style={{ background: 'rgba(249, 115, 22, 0.2)', color: '#fb923c' }}><Bell size={20} /></div>
                     <div className="v2-item-text">
                       <h3>{t.notifications}</h3>
                       <p>{t.notificationsDesc}</p>
@@ -1039,14 +1051,6 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                       <span className="v2-dev-role">{t.devRole}</span>
                     </div>
                   </div>
-                  <div className="v2-dev-actions">
-                     <button className="v2-btn youtube" onClick={() => openUrl(URLS.youtube)}>
-                       <Youtube size={18} /> {t.devSubscribe}
-                     </button>
-                     <button className="v2-btn coffee" onClick={() => openUrl(URLS.patreon)}>
-                       <Coffee size={18} /> {t.devSupport}
-                     </button>
-                  </div>
                 </div>
               </div>
 
@@ -1075,12 +1079,12 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
       {/* Tabs / Bottom Nav */}
       <nav className="bottom-nav" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(10, 10, 18, 0.95)' }}>
         <button className="nav-btn" onClick={() => setActiveTab('general')} style={{ color: activeTab === 'general' ? '#fff' : '' }}>
-          <SettingsIcon size={22} strokeWidth={activeTab === 'general' ? 2.5 : 2} style={{ color: activeTab === 'general' ? '#60a5fa' : '' }} />
+          <SettingsIcon size={22} strokeWidth={activeTab === 'general' ? 2.5 : 2} style={{ color: activeTab === 'general' ? '#fb923c' : '' }} />
           <span>{t.tabGeneral || 'GENEL'}</span>
         </button>
         <div className="nav-divider" />
         <button className="nav-btn" onClick={() => setActiveTab('network')} style={{ color: activeTab === 'network' ? '#fff' : '' }}>
-          <Globe size={22} strokeWidth={activeTab === 'network' ? 2.5 : 2} style={{ color: activeTab === 'network' ? '#a855f7' : '' }} />
+          <Globe size={22} strokeWidth={activeTab === 'network' ? 2.5 : 2} style={{ color: activeTab === 'network' ? '#f97316' : '' }} />
           <span>{t.tabNetwork || 'AĞ'}</span>
         </button>
         <div className="nav-divider" />

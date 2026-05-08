@@ -270,8 +270,6 @@ const translations = {
     // Section: Developer
     sectionDev: 'GELİŞTİRİCİ',
     devRole: 'KelleDPI Geliştiricisi',
-    devSubscribe: 'Abone Ol',
-    devSupport: 'Destekle',
 
     // Section: Important Notice
     sectionNotice: 'ÖNEMLİ BİLGİ',
@@ -562,8 +560,6 @@ const translations = {
     // Section: Developer
     sectionDev: 'DEVELOPER',
     devRole: 'KelleDPI Developer',
-    devSubscribe: 'Subscribe',
-    devSupport: 'Support',
 
     // Section: Important Notice
     sectionNotice: 'IMPORTANT',

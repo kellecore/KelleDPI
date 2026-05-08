@@ -4,7 +4,7 @@
 
 <h1 align="center">KelleDPI</h1>
 
-> Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows) projesinden klonlanarak geliştirilmiştir.
+> Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows) projesinden klonlanarak geliştirilmiş bir KelleDPI sürümüdür.
 
 <p align="center">
   <b>Discord ve internet erişim engellerini aşmak için tasarlanmış; askeri düzeyde çökmeye karşı dayanıklı (Anti-Crash), modern ve çok yönlü Yerel Proxy & DPI Bypass aracı.</b>
@@ -14,14 +14,14 @@
 <p align="center">
 
 [![KelleDPI İndir!](https://img.shields.io/badge/⬇%20İndir-KelleDPI-107C10?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/kellecore/KelleDPI/releases)
-[![Version v1.0.0 (Son Sürüm)](https://img.shields.io/badge/Version-1.0.0%20Latest-0078D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kellecore/KelleDPI/releases/)
+[![Version v1.0.1 (Son Sürüm)](https://img.shields.io/badge/Version-1.0.1%20Latest-0078D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kellecore/KelleDPI/releases/)
 
 </p>
 
 ---
 
 
-# 🚀 KelleDPI v1.0.0 (Enterprise-Ready)
+# 🚀 KelleDPI v1.0.1 (Enterprise-Ready)
 
 > **Discord ve internet erişim engellerini aşmak için tasarlanmış; askeri düzeyde çökmeye karşı dayanıklı (Anti-Crash), modern ve çok yönlü Yerel Proxy & DPI Bypass aracı.**
 
@@ -49,7 +49,6 @@
 - [Siber Güvenlik ve Kurumsal Standartlar](#-siber-güvenlik-ve-kurumsal-standartlar-enterprise-grade)
 - [Sistem Gereksinimleri](#-sistem-gereksinimleri)
 - [Nasıl Çalışır?](#-nasıl-çalışır)
-- [Geliştirici & Destek](#-geliştirici--destek)
 - [Gizlilik Politikası (Sıfır Log)](#-gizlilik-ve-telemetri-sıfır-log)
 
 ---
@@ -125,17 +124,6 @@ KelleDPI, kod düzeyindedir ve tamamen "0 Zafiyet" denetiminden (Security Audit)
 1. **İndirin**: Projenin [Releases sayfası](https://github.com/kellecore/KelleDPI/releases) bağlantısına gidip en güncel versiyonun `.exe / .msi` dosyasını bilgisayarınıza indirin.
 2. **Kurun**: Uygulamayı çalıştırın. Kendi yerleşik (gömülü) motorunu kullanacağı için WinPcap vb. hiçbir ek program / sürücü yüklemenize **asla** gerek yoktur.
 3. **Açın ve Tıklayın**: İsterseniz Ayarlar (Dişli İkonu) sekmesinden *DoH DNS*, *Güçlü Mod* ve *LAN Paylaşımı (Telefon)* özelliklerini zevkinize göre açıp; ana ekrandaki **BAĞLAN** tuşuna dokunmanız yeterlidir. Ekranda **Güvenli** yazdığı an Discord ve ötesindeki dünyaya aitsiniz.
-
----
-
-## 🤝 Geliştirici & Destek
-
-Bu proje açık kaynaklı, tamamen hür bir topluluk girişimidir. KelleDPI'ın yaşaması, donanımlarının güncellenmesi için bana kahve ısmarlamak isterseniz:
-
-- **GitHub Sponsor:** [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MuratGuelr)
-- **Patreon:** [![Patreon](https://img.shields.io/badge/MuratGuelr-purple?logo=patreon&label=Patreon)](https://www.patreon.com/join/ConsolAktif)
-
-**Geliştirici:** Crafted with 💖 & Rust by [ConsolAktif](https://github.com/MuratGuelr)
 
 ---
 

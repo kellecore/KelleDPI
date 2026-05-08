@@ -1750,7 +1750,7 @@ function App() {
               >
                 <button
                   style={{
-                    background: "#3b82f6",
+                    background: "#f97316",
                     color: "white",
                     padding: "0.8rem 2rem",
                     border: "none",
@@ -1764,19 +1764,19 @@ function App() {
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "8px",
-                    boxShadow: "0 4px 14px rgba(59, 130, 246, 0.3)",
+                    boxShadow: "0 4px 14px rgba(249, 115, 22, 0.3)",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#2563eb";
+                    e.currentTarget.style.background = "#ea580c";
                     e.currentTarget.style.transform = "translateY(-1px)";
                     e.currentTarget.style.boxShadow =
-                      "0 6px 20px rgba(59, 130, 246, 0.4)";
+                      "0 6px 20px rgba(249, 115, 22, 0.4)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "#3b82f6";
+                    e.currentTarget.style.background = "#f97316";
                     e.currentTarget.style.transform = "translateY(0)";
                     e.currentTarget.style.boxShadow =
-                      "0 4px 14px rgba(59, 130, 246, 0.3)";
+                      "0 4px 14px rgba(249, 115, 22, 0.3)";
                   }}
                   onClick={() =>
                     openUrl(URLS.tutorialHowItWorks)
@@ -1842,7 +1842,7 @@ function App() {
               position: "absolute", top: "35%", left: "50%",
               transform: "translate(-50%, -50%)",
               width: "100%", height: "400px",
-              background: "radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(0,0,0,0) 60%)",
+              background: "radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, rgba(0,0,0,0) 60%)",
               pointerEvents: "none", zIndex: 0,
             }} />
 
@@ -1922,7 +1922,7 @@ function App() {
                 }}
                 style={{
                   width: "100%",
-                  background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+                  background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
                   color: "white",
                   padding: "0.85rem",
                   border: "none",
@@ -1934,12 +1934,12 @@ function App() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: "8px",
-                  boxShadow: "0 4px 14px rgba(59, 130, 246, 0.3)",
+                  boxShadow: "0 4px 14px rgba(249, 115, 22, 0.3)",
                   marginBottom: "0.75rem",
                   transition: "all 0.2s ease",
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(59, 130, 246, 0.4)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 14px rgba(59, 130, 246, 0.3)"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(249, 115, 22, 0.4)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 14px rgba(249, 115, 22, 0.3)"; }}
               >
                 <Power size={18} />
                 {t.issOverlayApply}
@@ -2083,7 +2083,7 @@ function App() {
                     <Globe
                       size={13}
                       strokeWidth={2.5}
-                      style={{ color: "#60a5fa" }}
+                      style={{ color: "#fb923c" }}
                     />
                     <span>
                       DNS:{" "}
@@ -2141,38 +2141,6 @@ function App() {
           </span>
         </button>
       </div>
-
-      {/* Social Links — animasyonlu giriş/çıkış */}
-      <AnimatePresence>
-        {!isConnected && !isProcessing && (
-          <motion.div
-            className="social-links-bar"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-          >
-            <button
-              className="social-link-btn youtube-btn"
-              onClick={() => openUrl(URLS.youtube)}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-              </svg>
-              <span>{t.devSubscribe}</span>
-            </button>
-            <button
-              className="social-link-btn patreon-btn"
-              onClick={() => openUrl(URLS.patreon)}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524zM.003 23.537h4.22V.524H.003v23.013z"/>
-              </svg>
-              <span>{t.devSupport}</span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Bottom Navigation */}
       <nav className="bottom-nav">
@@ -2267,7 +2235,7 @@ function App() {
                 width: "100%",
                 height: "400px",
                 background:
-                  "radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0,0,0,0) 50%)",
+                  "radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, rgba(0,0,0,0) 50%)",
                 pointerEvents: "none",
                 zIndex: 0,
               }}
@@ -2305,14 +2273,14 @@ function App() {
                     width: "48px",
                     height: "48px",
                     borderRadius: "14px",
-                    background: "rgba(59, 130, 246, 0.1)",
-                    border: "1px solid rgba(59, 130, 246, 0.2)",
+                    background: "rgba(249, 115, 22, 0.1)",
+                    border: "1px solid rgba(249, 115, 22, 0.2)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  <Smartphone size={24} color="#3b82f6" />
+                  <Smartphone size={24} color="#f97316" />
                 </div>
                 <div>
                   <h2
@@ -2389,10 +2357,10 @@ function App() {
                       border: "none",
                       background:
                         connectionModalTab === "pac"
-                          ? "rgba(34, 197, 94, 0.25)"
+                          ? "rgba(245, 158, 11, 0.25)"
                           : "transparent",
                       color:
-                        connectionModalTab === "pac" ? "#4ade80" : "#94a3b8",
+                        connectionModalTab === "pac" ? "#f59e0b" : "#94a3b8",
                       fontWeight: connectionModalTab === "pac" ? 600 : 500,
                       fontSize: "0.8rem",
                       cursor: "pointer",
@@ -2411,10 +2379,10 @@ function App() {
                       border: "none",
                       background:
                         connectionModalTab === "manual"
-                          ? "rgba(59, 130, 246, 0.2)"
+                          ? "rgba(249, 115, 22, 0.2)"
                           : "transparent",
                       color:
-                        connectionModalTab === "manual" ? "#60a5fa" : "#94a3b8",
+                        connectionModalTab === "manual" ? "#fb923c" : "#94a3b8",
                       fontWeight: connectionModalTab === "manual" ? 600 : 500,
                       fontSize: "0.8rem",
                       cursor: "pointer",
@@ -2445,8 +2413,8 @@ function App() {
                     </div>
                     {/* Step 1: Install Guide */}
                     <div style={{
-                        background: 'rgba(59, 130, 246, 0.08)',
-                        border: '1px solid rgba(59, 130, 246, 0.2)',
+                        background: 'rgba(249, 115, 22, 0.08)',
+                        border: '1px solid rgba(249, 115, 22, 0.2)',
                         borderRadius: '12px',
                         padding: '12px',
                         display: 'flex',
@@ -2461,39 +2429,39 @@ function App() {
                          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                        >
                          <QRCodeSVG value={`http://${lanIp}:${pacPort}/`} size={64} level="M" />
-                         <div style={{ display: 'flex', alignItems: 'center', gap: '2px', background: 'rgba(59, 130, 246, 0.1)', color: '#2563eb', fontSize: '0.65rem', fontWeight: 700, padding: '2px 6px', borderRadius: '4px', marginTop: '4px' }}>
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '2px', background: 'rgba(249, 115, 22, 0.1)', color: '#ea580c', fontSize: '0.65rem', fontWeight: 700, padding: '2px 6px', borderRadius: '4px', marginTop: '4px' }}>
                            <ZoomIn size={10} strokeWidth={3} />
                            BÜYÜT
                          </div>
                        </div>
                        <div>
-                         <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#60a5fa', marginBottom: '2px' }}>{t.modalPacStep1Title}</div>
+                         <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fb923c', marginBottom: '2px' }}>{t.modalPacStep1Title}</div>
                          <div style={{ fontSize: '0.75rem', color: '#94a3b8', lineHeight: 1.4 }}>{t.modalPacStep1Desc}</div>
                        </div>
                     </div>
 
                     {/* Step 2: PAC URL */}
                     <div style={{
-                        background: 'rgba(34, 197, 94, 0.08)',
-                        border: '1px solid rgba(34, 197, 94, 0.2)',
+                        background: 'rgba(245, 158, 11, 0.08)',
+                        border: '1px solid rgba(245, 158, 11, 0.2)',
                         borderRadius: '12px',
                         padding: '12px',
                     }}>
-                       <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#4ade80', marginBottom: '4px' }}>{t.modalPacStep2Title}</div>
+                       <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f59e0b', marginBottom: '4px' }}>{t.modalPacStep2Title}</div>
                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '8px', lineHeight: 1.4 }}>{t.modalPacStep2Desc}</div>
                        
                        <div
                           className="code-box"
                           onClick={() => handleCopyField(`http://${lanIp}:${pacPort}/proxy.pac`, 'pac')}
                           title="Kopyala"
-                          style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 197, 94, 0.15)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', transition: 'all 0.2s', margin: 0 }}
-                          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.borderColor = 'rgba(34, 197, 94, 0.3)'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.3)'; e.currentTarget.style.borderColor = 'rgba(34, 197, 94, 0.15)'; }}
+                          style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(245, 158, 11, 0.15)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', transition: 'all 0.2s', margin: 0 }}
+                          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.3)'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.3)'; e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.15)'; }}
                         >
                           <span style={{ fontSize: '0.8rem', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: '#f8fafc', fontWeight: 500, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' }}>
                             http://{lanIp}:{pacPort}/proxy.pac
                           </span>
-                          {copiedField === 'pac' ? <Check size={16} color="#4ade80" style={{ flexShrink: 0, marginLeft: '8px' }} /> : <Copy size={16} color="#4ade80" style={{ flexShrink: 0, marginLeft: '8px' }} />}
+                          {copiedField === 'pac' ? <Check size={16} color="#f59e0b" style={{ flexShrink: 0, marginLeft: '8px' }} /> : <Copy size={16} color="#f59e0b" style={{ flexShrink: 0, marginLeft: '8px' }} />}
                         </div>
                     </div>
                   </div>
@@ -2554,10 +2522,10 @@ function App() {
                           className="code-box"
                           onClick={() => handleCopyField(lanIp, 'host')}
                           title="Kopyala"
-                          style={{ transition: 'all 0.2s', background: copiedField === 'host' ? 'rgba(34, 197, 94, 0.1)' : undefined, borderColor: copiedField === 'host' ? 'rgba(34, 197, 94, 0.3)' : undefined }}
+                          style={{ transition: 'all 0.2s', background: copiedField === 'host' ? 'rgba(245, 158, 11, 0.1)' : undefined, borderColor: copiedField === 'host' ? 'rgba(245, 158, 11, 0.3)' : undefined }}
                         >
-                          <span style={{ color: copiedField === 'host' ? '#4ade80' : undefined }}>{lanIp}</span>
-                          {copiedField === 'host' ? <Check size={16} color="#4ade80" /> : <Copy size={16} color="#71717a" />}
+                          <span style={{ color: copiedField === 'host' ? '#f59e0b' : undefined }}>{lanIp}</span>
+                          {copiedField === 'host' ? <Check size={16} color="#f59e0b" /> : <Copy size={16} color="#71717a" />}
                         </div>
                       </div>
                       <div>
@@ -2578,10 +2546,10 @@ function App() {
                           className="code-box"
                           onClick={() => handleCopyField(currentPort.toString(), 'port')}
                           title="Kopyala"
-                          style={{ transition: 'all 0.2s', background: copiedField === 'port' ? 'rgba(34, 197, 94, 0.1)' : undefined, borderColor: copiedField === 'port' ? 'rgba(34, 197, 94, 0.3)' : undefined }}
+                          style={{ transition: 'all 0.2s', background: copiedField === 'port' ? 'rgba(245, 158, 11, 0.1)' : undefined, borderColor: copiedField === 'port' ? 'rgba(245, 158, 11, 0.3)' : undefined }}
                         >
-                          <span style={{ color: copiedField === 'port' ? '#4ade80' : undefined }}>{currentPort}</span>
-                          {copiedField === 'port' ? <Check size={16} color="#4ade80" /> : <Copy size={16} color="#71717a" />}
+                          <span style={{ color: copiedField === 'port' ? '#f59e0b' : undefined }}>{currentPort}</span>
+                          {copiedField === 'port' ? <Check size={16} color="#f59e0b" /> : <Copy size={16} color="#71717a" />}
                         </div>
                       </div>
                     </div>
@@ -2592,7 +2560,7 @@ function App() {
                   style={{
                     width: "100%",
                     background:
-                      "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+                      "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
                     color: "white",
                     border: "none",
                     padding: "0.85rem",
@@ -2605,17 +2573,17 @@ function App() {
                     gap: "8px",
                     cursor: "pointer",
                     transition: "all 0.2s",
-                    boxShadow: "0 4px 14px rgba(59, 130, 246, 0.3)",
+                    boxShadow: "0 4px 14px rgba(249, 115, 22, 0.3)",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-1px)";
                     e.currentTarget.style.boxShadow =
-                      "0 6px 20px rgba(59, 130, 246, 0.4)";
+                      "0 6px 20px rgba(249, 115, 22, 0.4)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
                     e.currentTarget.style.boxShadow =
-                      "0 4px 14px rgba(59, 130, 246, 0.3)";
+                      "0 4px 14px rgba(249, 115, 22, 0.3)";
                   }}
                   onClick={() => openUrl(URLS.tutorialProxy)}
                 >

@@ -5,8 +5,6 @@
 
 // ===== Dış Bağlantılar =====
 export const URLS = {
-  youtube: "https://youtube.com/@ConsolAktif",
-  patreon: "https://www.patreon.com/join/ConsolAktif",
   tutorialHowItWorks: "https://kelledpi.vercel.app/how-it-works",
   tutorialProxy: "https://kelledpi.vercel.app/proxy",
 };
@@ -37,7 +35,7 @@ export const DOH_MAP = {
 // ===== Uygulama Sabitleri =====
 export const APP = {
   name: "KelleDPI",
-  version: "1.0.0",
+  version: "1.0.1",
   designWidth: 380,
   designHeight: 700,
   maxLogs: 100,
