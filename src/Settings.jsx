@@ -11,7 +11,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { getTranslations, SUPPORTED_LANGUAGES } from './i18n';
 import { URLS } from './constants';
 import { ISP_PROFILES, CHUNK_SIZES, DEFAULT_CHUNKS } from './profiles';
-import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from './dpiBlacklist';
+import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from './kelleDpiBlacklist';
 import './App.css';
 
 const Toggle = ({ checked, onChange }) => (
@@ -165,7 +165,7 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
       await invoke('clear_system_proxy');
       
       // P1-FIX: Ana ekrandaki bağlantı durumunu eşzamanlı güncelle
-      window.dispatchEvent(new CustomEvent('bypax-force-disconnect', {
+      window.dispatchEvent(new CustomEvent('kelle-force-disconnect', {
         detail: { reason: 'manual-fix' }
       }));
       

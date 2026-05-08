@@ -22,7 +22,7 @@
       "identifier": "shell:allow-spawn",
       "allow": [
         {
-          "name": "binaries/bypax-proxy",
+          "name": "binaries/kelle-proxy",
           "sidecar": true,
           "args": true
         }
@@ -33,7 +33,7 @@
       "identifier": "shell:allow-kill",
       "allow": [
         {
-          "name": "binaries/bypax-proxy",
+          "name": "binaries/kelle-proxy",
           "sidecar": true,
           "args": true
         }
@@ -57,7 +57,7 @@
       "identifier": "opener:allow-open-url",
       "allow": [
         { "url": "https://www.patreon.com/**" },
-        { "url": "https://bypaxdpi.vercel.app/**" },
+        { "url": "https://kelledpi.vercel.app/**" },
         { "url": "https://github.com/ConsolAktif/**" },
         { "url": "https://youtube.com/**" }
       ]

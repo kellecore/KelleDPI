@@ -1,5 +1,5 @@
 // ============================================================
-// BypaxDPI — Merkezi Sabitler
+// KelleDPI — Merkezi Sabitler
 // Tüm URL'ler, DNS ayarları ve app sabitleri burada toplanır.
 // ============================================================
 
@@ -7,8 +7,8 @@
 export const URLS = {
   youtube: "https://youtube.com/@ConsolAktif",
   patreon: "https://www.patreon.com/join/ConsolAktif",
-  tutorialHowItWorks: "https://bypaxdpi.vercel.app/how-it-works",
-  tutorialProxy: "https://bypaxdpi.vercel.app/proxy",
+  tutorialHowItWorks: "https://kelledpi.vercel.app/how-it-works",
+  tutorialProxy: "https://kelledpi.vercel.app/proxy",
 };
 
 // ===== DNS Ayarları =====
@@ -36,7 +36,7 @@ export const DOH_MAP = {
 
 // ===== Uygulama Sabitleri =====
 export const APP = {
-  name: "BypaxDPI",
+  name: "KelleDPI",
   version: "1.0.0",
   designWidth: 380,
   designHeight: 700,

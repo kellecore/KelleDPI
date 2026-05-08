@@ -1,7 +1,7 @@
 const translations = {
   tr: {
     // ===== APP.JSX - Header =====
-    appName: 'BYPAXDPI',
+    appName: 'KELLEDPI',
     statusActive: 'AKTİF',
     statusInactive: 'KAPALI',
     statusReady: 'HAZIR',
@@ -50,9 +50,9 @@ const translations = {
     modalPacStep2Title: '2. PAC Adresini Kopyalayın',
     modalPacStep2Desc: 'Rehberde gösterilen "Otomatik URL" alanına bu kodu yapıştırın:',
     modalPacWarningTitle: 'DİKKAT:',
-    modalPacWarningDesc: 'Bypax kapatıldıktan sonra YouTube vb. uygulamalarda internet sorunu yaşarsanız (eski önbellek nedeniyle), Wi-Fi bağlantısını kapatıp açmanız yeterlidir.',
+    modalPacWarningDesc: 'Kelle kapatıldıktan sonra YouTube vb. uygulamalarda internet sorunu yaşarsanız (eski önbellek nedeniyle), Wi-Fi bağlantısını kapatıp açmanız yeterlidir.',
     modalManualWarningTitle: 'DİKKAT:',
-    modalManualWarningDesc: 'Bypax kapatıldığında internet bağlantısı tamamen kesilir. İnternete tekrar girmek için cihazınızın Wi-Fi ayarlarından Proxy\'i eski haline (Yok) getirmelisiniz.',
+    modalManualWarningDesc: 'Kelle kapatıldığında internet bağlantısı tamamen kesilir. İnternete tekrar girmek için cihazınızın Wi-Fi ayarlarından Proxy\'i eski haline (Yok) getirmelisiniz.',
     modalPacQrCaption: 'QR → Kurulum sayfası (tara ve kopyala)',
     modalHost: 'Sunucu (Host)',
     modalPort: 'Port',
@@ -60,7 +60,7 @@ const translations = {
 
     // ===== APP.JSX - Admin Modal =====
     adminTitle: 'Yönetici İzni Gerekli',
-    adminDesc: 'BypaxDPI\'ın düzgün çalışması için yönetici olarak çalıştırılması gereklidir.',
+    adminDesc: 'KelleDPI\'ın düzgün çalışması için yönetici olarak çalıştırılması gereklidir.',
     adminStep: 'Uygulamaya sağ tıklayın → <strong>"Yönetici olarak çalıştır"</strong> seçin',
     adminClose: 'KAPAT',
     adminHowItWorks: 'Nasıl Çalışır?',
@@ -71,14 +71,14 @@ const translations = {
     noInternetRetry: 'Tekrar Dene',
 
     // ===== APP.JSX - Log Messages =====
-    logEngineStarting: (port) => `Bypax Motoru başlatılıyor (Port: ${port})...`,
+    logEngineStarting: (port) => `Kelle Motoru başlatılıyor (Port: ${port})...`,
     logDnsUsed: (name, ip) => `Kullanılan DNS: ${name} (${ip})`,
     logDnsDefault: 'DNS: Sistem Varsayılanı',
     logConnected: 'Bağlantı başarılı! Trafik şifreleniyor.',
     logDisconnected: 'Bağlantı kesildi.',
     logProxySet: (port) => `Sistem Proxy ayarlandı: 127.0.0.1:${port}`,
     logProxyCleared: 'Sistem Proxy Temizlendi',
-    logEngineStopped: (code) => `Bypax motoru beklenmedik şekilde durduruldu (Kod: ${code})`,
+    logEngineStopped: (code) => `Kelle motoru beklenmedik şekilde durduruldu (Kod: ${code})`,
     logEngineStartError: (err) => `Motor başlatılamadı: ${err}`,
     logAutoReconnect: 'Otomatik yeniden bağlanma aktif...',
     logReconnecting: (n) => `Yeniden bağlanılıyor... (Deneme ${n}/5)`,
@@ -87,7 +87,7 @@ const translations = {
     logMaxRetries: 'Bağlantı kurulamadı. Maksimum deneme sayısına ulaşıldı.',
     logPossibleReasons: 'Olası sebepler:',
     logReasonInternet: 'İnternet bağlantınız kesilmiş olabilir',
-    logReasonFirewall: 'Firewall/Antivirüs BypaxDPI\'ı engelliyor olabilir',
+    logReasonFirewall: 'Firewall/Antivirüs KelleDPI\'ı engelliyor olabilir',
     logReasonPorts: '8080-8084 portları sistem tarafından kullanılıyor',
     logSolutions: 'Çözüm önerileri:',
     logSolInternet: 'İnternet bağlantınızı kontrol edin',
@@ -96,14 +96,14 @@ const translations = {
     logSolLogs: 'Logları kopyalayıp destek için paylaşabilirsiniz',
     logLanRestart: 'Yerel ağ paylaşımı değişti, bağlantı yeniden başlatılıyor...',
     logDpiRestart: 'DPI modu değişti, bağlantı yeniden başlatılıyor...',
-    logEngineStoppedGrace: 'Bypax motoru kapatıldı.',
+    logEngineStoppedGrace: 'Kelle motoru kapatıldı.',
     logServiceStopped: 'Servis durduruldu.',
     logShutdownStarting: 'Kapatma başlatılıyor...',
     logProcessStopped: 'İşlem sonlandırıldı.',
     logSpoofReady: (port) => `✓ SpoofDPI Motoru başlatıldı (Port: ${port})`,
     logPacStarted: '✓ PAC sunucusu başlatıldı (Yerel ağ cihazları için)',
     logPacStartError: (err) => `PAC sunucusu başlatılamadı: ${err}`,
-    logEngineActive: '✓ Bypax motoru aktif',
+    logEngineActive: '✓ Kelle motoru aktif',
     logPortBusy: (port) => `⚠ Port ${port} dolu, başka port deneniyor...`,
     logInitializing: '⏳ Motor başlatılıyor...',
     logPortRetryOpen: (port) => `Port ${port} açılamadı, yeniden deneniyor...`,
@@ -120,7 +120,7 @@ const translations = {
     logDpiBlacklistEnabled: (count) => `DPI blacklist aktif: ${count} domain için özel bypass kuralı uygulanıyor.`,
     logDpiBlacklistEmpty: 'DPI blacklist açık ama geçerli domain yok; normal mod kullanılıyor.',
     logWpcapMissing: 'SpoofDPI, wpcap.dll kütüphanesini bulamadı. Lütfen Npcap veya WinPcap kurun ve ardından uygulamayı yeniden başlatın.',
-    logAntivirusWarning: 'Windows Defender veya antivirüs yazılımınız \'bypax-proxy.exe\' dosyasını engellemiş olabilir. Lütfen dosyayı antivirüs dışlama listesine (exclusion) ekleyin.',
+    logAntivirusWarning: 'Windows Defender veya antivirüs yazılımınız \'kelle-proxy.exe\' dosyasını engellemiş olabilir. Lütfen dosyayı antivirüs dışlama listesine (exclusion) ekleyin.',
 
     // ===== SETTINGS.JSX =====
     settingsTitle: 'AYARLAR',
@@ -158,7 +158,7 @@ const translations = {
     // Section: General
     sectionGeneral: 'GENEL',
     autoStart: 'Başlangıçta Çalıştır',
-    autoStartDesc: 'Windows açılınca BypaxDPI\'ı başlat',
+    autoStartDesc: 'Windows açılınca KelleDPI\'ı başlat',
     minimizeToTray: 'Tepsiye Küçült',
     minimizeToTrayDesc: 'Kapatıldığında arka planda çalışsın',
     alwaysOnTop: 'Her Şeyin Üzerinde Tut',
@@ -269,18 +269,18 @@ const translations = {
 
     // Section: Developer
     sectionDev: 'GELİŞTİRİCİ',
-    devRole: 'BypaxDPI Geliştiricisi',
+    devRole: 'KelleDPI Geliştiricisi',
     devSubscribe: 'Abone Ol',
     devSupport: 'Destekle',
 
     // Section: Important Notice
     sectionNotice: 'ÖNEMLİ BİLGİ',
     noticeTitle: 'Güvenlik ve Yanlış Pozitif',
-    noticeDesc: 'Bypax motoru, Windows Defender AI gibi yapay zeka tabanlı sistemler tarafından bazen "yanlış pozitif" olarak algılanabilir. Bu durum tamamen zararsızdır. Ayrıca Kaspersky, ESET gibi yazılımlar HTTPS tarama özelliğiyle bağlantıyı engelleyebilir. Erişim sorunu yaşarsanız bu ayarları kontrol edin.',
+    noticeDesc: 'Kelle motoru, Windows Defender AI gibi yapay zeka tabanlı sistemler tarafından bazen "yanlış pozitif" olarak algılanabilir. Bu durum tamamen zararsızdır. Ayrıca Kaspersky, ESET gibi yazılımlar HTTPS tarama özelliğiyle bağlantıyı engelleyebilir. Erişim sorunu yaşarsanız bu ayarları kontrol edin.',
 
     // Dialogs
     confirmExitTitle: 'Çıkış',
-    confirmExitDesc: 'Bypax motorunu durdurup çıkmak istediğinize emin misiniz?',
+    confirmExitDesc: 'Kelle motorunu durdurup çıkmak istediğinize emin misiniz?',
     confirmDisconnectTitle: 'Bağlantıyı Kes',
     confirmDisconnectDesc: 'Güvenli bağlantınızı sonlandırmak istediğinize emin misiniz?',
 
@@ -293,7 +293,7 @@ const translations = {
 
   en: {
     // ===== APP.JSX - Header =====
-    appName: 'BYPAXDPI',
+    appName: 'KELLEDPI',
     statusActive: 'ACTIVE',
     statusInactive: 'OFF',
     statusReady: 'READY',
@@ -342,9 +342,9 @@ const translations = {
     modalPacStep2Title: '2. Copy PAC Address',
     modalPacStep2Desc: 'Paste this code into the "Automatic URL" field shown in the guide:',
     modalPacWarningTitle: 'ATTENTION:',
-    modalPacWarningDesc: 'If apps like YouTube lose internet access after closing Bypax (due to cached connections), simply toggle your device\'s Wi-Fi off and on.',
+    modalPacWarningDesc: 'If apps like YouTube lose internet access after closing Kelle (due to cached connections), simply toggle your device\'s Wi-Fi off and on.',
     modalManualWarningTitle: 'ATTENTION:',
-    modalManualWarningDesc: 'When Bypax is closed, your device will completely lose internet access. To restore connection, you must remove the Proxy setting from your Wi-Fi settings.',
+    modalManualWarningDesc: 'When Kelle is closed, your device will completely lose internet access. To restore connection, you must remove the Proxy setting from your Wi-Fi settings.',
     modalPacQrCaption: 'QR → Setup page (scan and copy)',
     modalHost: 'Server (Host)',
     modalPort: 'Port',
@@ -352,7 +352,7 @@ const translations = {
 
     // ===== APP.JSX - Admin Modal =====
     adminTitle: 'Administrator Required',
-    adminDesc: 'BypaxDPI needs to run as administrator to work correctly.',
+    adminDesc: 'KelleDPI needs to run as administrator to work correctly.',
     adminStep: 'Right-click the app → Select <strong>"Run as administrator"</strong>',
     adminClose: 'CLOSE',
     adminHowItWorks: 'How it Works?',
@@ -363,14 +363,14 @@ const translations = {
     noInternetRetry: 'Retry',
 
     // ===== APP.JSX - Log Messages =====
-    logEngineStarting: (port) => `Bypax Engine starting (Port: ${port})...`,
+    logEngineStarting: (port) => `Kelle Engine starting (Port: ${port})...`,
     logDnsUsed: (name, ip) => `DNS: ${name} (${ip})`,
     logDnsDefault: 'DNS: System Default',
     logConnected: 'Connection successful! Traffic is encrypted.',
     logDisconnected: 'Disconnected.',
     logProxySet: (port) => `System Proxy set: 127.0.0.1:${port}`,
     logProxyCleared: 'System Proxy Cleared',
-    logEngineStopped: (code) => `Bypax engine stopped unexpectedly (Code: ${code})`,
+    logEngineStopped: (code) => `Kelle engine stopped unexpectedly (Code: ${code})`,
     logEngineStartError: (err) => `Engine failed to start: ${err}`,
     logAutoReconnect: 'Auto-reconnect enabled...',
     logReconnecting: (n) => `Reconnecting... (Attempt ${n}/5)`,
@@ -379,7 +379,7 @@ const translations = {
     logMaxRetries: 'Connection failed. Maximum attempts reached.',
     logPossibleReasons: 'Possible reasons:',
     logReasonInternet: 'Your internet may be disconnected',
-    logReasonFirewall: 'Firewall/Antivirus may be blocking Bypax',
+    logReasonFirewall: 'Firewall/Antivirus may be blocking Kelle',
     logReasonPorts: 'Ports 8080-8084 may be in use',
     logSolutions: 'Suggested solutions:',
     logSolInternet: 'Check your internet connection',
@@ -388,14 +388,14 @@ const translations = {
     logSolLogs: 'Copy and share logs for support',
     logLanRestart: 'LAN sharing changed, restarting connection...',
     logDpiRestart: 'DPI mode changed, restarting connection...',
-    logEngineStoppedGrace: 'Bypax engine stopped.',
+    logEngineStoppedGrace: 'Kelle engine stopped.',
     logServiceStopped: 'Service stopped.',
     logShutdownStarting: 'Shutdown started...',
     logProcessStopped: 'Process stopped.',
     logSpoofReady: (port) => `✓ SpoofDPI engine started (Port: ${port})`,
     logPacStarted: '✓ PAC server started (for LAN devices)',
     logPacStartError: (err) => `PAC server failed to start: ${err}`,
-    logEngineActive: '✓ Bypax engine active',
+    logEngineActive: '✓ Kelle engine active',
     logPortBusy: (port) => `⚠ Port ${port} is busy, trying another one...`,
     logInitializing: '⏳ Engine is initializing...',
     logPortRetryOpen: (port) => `Port ${port} could not be opened, retrying...`,
@@ -412,7 +412,7 @@ const translations = {
     logDpiBlacklistEnabled: (count) => `DPI blacklist active: applying custom bypass rule for ${count} domains.`,
     logDpiBlacklistEmpty: 'DPI blacklist is enabled but no valid domains were found; normal mode is used.',
     logWpcapMissing: 'SpoofDPI could not find wpcap.dll. Please install Npcap or WinPcap, then restart the application.',
-    logAntivirusWarning: 'Windows Defender or your antivirus software may have blocked \'bypax-proxy.exe\'. Please add the file to your antivirus exclusion list.',
+    logAntivirusWarning: 'Windows Defender or your antivirus software may have blocked \'kelle-proxy.exe\'. Please add the file to your antivirus exclusion list.',
 
     // ===== SETTINGS.JSX =====
     settingsTitle: 'SETTINGS',
@@ -450,7 +450,7 @@ const translations = {
     // Section: General
     sectionGeneral: 'GENERAL',
     autoStart: 'Start at Boot',
-    autoStartDesc: 'Launch Bypax when Windows starts',
+    autoStartDesc: 'Launch Kelle when Windows starts',
     minimizeToTray: 'Minimize to Tray',
     minimizeToTrayDesc: 'Run in background when closed',
     alwaysOnTop: 'Always on Top',
@@ -561,18 +561,18 @@ const translations = {
 
     // Section: Developer
     sectionDev: 'DEVELOPER',
-    devRole: 'BypaxDPI Developer',
+    devRole: 'KelleDPI Developer',
     devSubscribe: 'Subscribe',
     devSupport: 'Support',
 
     // Section: Important Notice
     sectionNotice: 'IMPORTANT',
     noticeTitle: 'Security & False Positives',
-    noticeDesc: 'The Bypax engine may sometimes be flagged as a "false positive" by AI-based systems like Windows Defender. This is completely harmless. Also, antivirus software like Kaspersky or ESET may block connections with their HTTPS scanning. If you experience issues, check those settings.',
+    noticeDesc: 'The Kelle engine may sometimes be flagged as a "false positive" by AI-based systems like Windows Defender. This is completely harmless. Also, antivirus software like Kaspersky or ESET may block connections with their HTTPS scanning. If you experience issues, check those settings.',
 
     // Dialogs
     confirmExitTitle: 'Exit',
-    confirmExitDesc: 'Are you sure you want to stop the Bypax engine and exit?',
+    confirmExitDesc: 'Are you sure you want to stop the Kelle engine and exit?',
     confirmDisconnectTitle: 'Disconnect',
     confirmDisconnectDesc: 'Are you sure you want to terminate your secure connection?',
 

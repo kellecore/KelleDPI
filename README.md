@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="images/bypax-logo.png" width="128" alt="BypaxDPI Logo">
+  <img src="images/kelle-logo.png" width="128" alt="KelleDPI Logo">
 </p>
 
-<h1 align="center">BypaxDPI</h1>
+<h1 align="center">KelleDPI</h1>
 
 > Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows) projesinden klonlanarak geliştirilmiştir.
 
@@ -13,15 +13,15 @@
 ---
 <p align="center">
 
-[![BypaxDPI İndir!](https://img.shields.io/badge/⬇%20İndir-BypaxDPI-107C10?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/BypaxDPI/BypaxDPI-Windows/releases)
-[![Version v1.0.0 (Son Sürüm)](https://img.shields.io/badge/Version-1.0.0%20Latest-0078D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/BypaxDPI/BypaxDPI-Windows/releases/)
+[![KelleDPI İndir!](https://img.shields.io/badge/⬇%20İndir-KelleDPI-107C10?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/kellecore/KelleDPI/releases)
+[![Version v1.0.0 (Son Sürüm)](https://img.shields.io/badge/Version-1.0.0%20Latest-0078D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kellecore/KelleDPI/releases/)
 
 </p>
 
 ---
 
 
-# 🚀 BypaxDPI v1.0.0 (Enterprise-Ready)
+# 🚀 KelleDPI v1.0.0 (Enterprise-Ready)
 
 > **Discord ve internet erişim engellerini aşmak için tasarlanmış; askeri düzeyde çökmeye karşı dayanıklı (Anti-Crash), modern ve çok yönlü Yerel Proxy & DPI Bypass aracı.**
 
@@ -35,15 +35,15 @@
 ## 📸 Ekran Görüntüleri
 
 <div align="center">
-  <img src="images/1.jpg" alt="BypaxDPI Ekran Görüntüsü 1" width="35%">
-  <img src="images/2.jpg" alt="BypaxDPI Ekran Görüntüsü 2" width="35%">
+  <img src="images/1.jpg" alt="KelleDPI Ekran Görüntüsü 1" width="35%">
+  <img src="images/2.jpg" alt="KelleDPI Ekran Görüntüsü 2" width="35%">
 </div>
 
 ---
 
 ## 📋 İçindekiler
 
-- [Neden BypaxDPI? (Farkımız Ne?)](#-neden-bypaxdpi-farkımız-ne)
+- [Neden KelleDPI? (Farkımız Ne?)](#-neden-kelledpi-farkımız-ne)
 - [Özellikler](#-özellikler)
 - [3 Kademeli DPI Bypass Motoru](#-3-kademeli-dpi-bypass-motoru)
 - [Siber Güvenlik ve Kurumsal Standartlar](#-siber-güvenlik-ve-kurumsal-standartlar-enterprise-grade)
@@ -54,11 +54,11 @@
 
 ---
 
-## 💡 Neden BypaxDPI? (Farkımız Ne?)
+## 💡 Neden KelleDPI? (Farkımız Ne?)
 
 Piyasadaki diğer CMD/Java tabanlı (GoodbyeDPI, GreenTunnel vs.) kısıtlama aşıcı araçların en büyük sorunu **mavi ekran (BSOD) veya elektrik kesintisi gibi ani çökme durumlarında sistem proxy ayarlarınızı havada bırakarak internetinizi kırmasıdır.** 
 
-BypaxDPI, baştan aşağı Rust (Tauri v2) altyapısıyla kodlanmış olup **Zombi Process Avcısı, Sentinel Recovery (Hata Kurtarma Sistemi)** ve **Kurumsal Proxy Yedekleme** (Backup & Restore) yetenekleriyle donatılmıştır. Bağlantınız ne şekilde koparsa kopsun, internetiniz daima güvendedir ve eski haline kendi kendini otomatik onarır!
+KelleDPI, baştan aşağı Rust (Tauri v2) altyapısıyla kodlanmış olup **Zombi Process Avcısı, Sentinel Recovery (Hata Kurtarma Sistemi)** ve **Kurumsal Proxy Yedekleme** (Backup & Restore) yetenekleriyle donatılmıştır. Bağlantınız ne şekilde koparsa kopsun, internetiniz daima güvendedir ve eski haline kendi kendini otomatik onarır!
 
 ---
 
@@ -80,15 +80,15 @@ BypaxDPI, baştan aşağı Rust (Tauri v2) altyapısıyla kodlanmış olup **Zom
 </table>
 
 - **DoH (DNS over HTTPS) Şifrelemesi**: ISP'lerin standart Port 53 DNS sorgularını avlamasını önlemek için Cloudflare, Google, AdGuard, Quad9, OpenDNS üzerinden trafiklerinizi Web (HTTPS) katmanında maskeler.
-- **Canlı Soft-Restart (DPI Yenileme)**: Eski uygulamalar gibi DNS/Ayar değiştirdiğinizde uygulamayı söküp takmanız gerekmez. BypaxDPI canlı olarak yumuşak restart (Soft-Restart) atarak bağlantıyı yeni DNS protokolüne taşır.
-- **Modern Fluent Arayüz**: Eski çağ siyah konsolların aksine; BypaxDPI Windows 11 Fluent UI kurallarına göre tasarlanmış React/Tailwind bir arayüz, Canlı Log Monitörü ve Çoklu Dil desteğine sahiptir.
+- **Canlı Soft-Restart (DPI Yenileme)**: Eski uygulamalar gibi DNS/Ayar değiştirdiğinizde uygulamayı söküp takmanız gerekmez. KelleDPI canlı olarak yumuşak restart (Soft-Restart) atarak bağlantıyı yeni DNS protokolüne taşır.
+- **Modern Fluent Arayüz**: Eski çağ siyah konsolların aksine; KelleDPI Windows 11 Fluent UI kurallarına göre tasarlanmış React/Tailwind bir arayüz, Canlı Log Monitörü ve Çoklu Dil desteğine sahiptir.
 - **Sistem Tepsisi (Tray) Zulası**: Tek tıklamayla bildirim çubuğunda sessize geçer (Single-Instance Mimari). Birden fazla uygulamayı yanlışlıkla açıp işletim sisteminizi kilitlemeniz (Race-Condition) engellenmiştir.
 
 ---
 
 ## ⚙ 3 Kademeli DPI Bypass Motoru
 
-Güncellenmiş BypaxDPI sürümü, internet servis sağlayıcınızın (ISP) dayattığı zorluk derecesine göre anında geçiş yapabileceğiniz 3 farklı bypass motoru sunar:
+Güncellenmiş KelleDPI sürümü, internet servis sağlayıcınızın (ISP) dayattığı zorluk derecesine göre anında geçiş yapabileceğiniz 3 farklı bypass motoru sunar:
 
 | Mod | İsim | Özellikler (Alt Taraf: Go Engine) |
 | :---: | :--- | :--- |
@@ -102,10 +102,10 @@ Güncellenmiş BypaxDPI sürümü, internet servis sağlayıcınızın (ISP) day
 
 ## 🛡️ Siber Güvenlik ve Kurumsal Standartlar (Enterprise-Grade)
 
-BypaxDPI, kod düzeyindedir ve tamamen "0 Zafiyet" denetiminden (Security Audit) geçmiş profesyonel bir mimari kullanır:
+KelleDPI, kod düzeyindedir ve tamamen "0 Zafiyet" denetiminden (Security Audit) geçmiş profesyonel bir mimari kullanır:
 
 1. **Dirty-State Sentinel Recovery:** Uygulama veya PC aniden fişten çekilir/çökerse (BSOD), başlangıca koyduğumuz Sentinel mekanizması geriye çöp kalıp kalmadığını denetler ve bağlantınızı kalıcı olarak temizler (İnternetsiz kalmazsınız).
-2. **Original Proxy Backup:** Eğer zaten işyerinizin/şirketinizin kendine ait bir Proxy ayarı kuruluysa, BypaxDPI bunu çalışmadan önce güvenle yedeğe alır; işi bittiğinde proxy ayarlarınızı eski kurumsal haline "Restore" eder.
+2. **Original Proxy Backup:** Eğer zaten işyerinizin/şirketinizin kendine ait bir Proxy ayarı kuruluysa, KelleDPI bunu çalışmadan önce güvenle yedeğe alır; işi bittiğinde proxy ayarlarınızı eski kurumsal haline "Restore" eder.
 3. **Rust Native WinAPI:** CMD/Powershell gibi hantal ve güvenlik uyarısı tetikleyen arka plan yazılımları tamamen kaldırılmıştır; onun yerine Yönetici yetkisi, Registry okumaları Rust'ın kendi Native `windows` crate'i ile 1ms altında güvenceyle yürütülür.
 4. **Thread-Rate Limitli PAC Sunucusu:** Açık WiFi veya ofiste aynı ağdaki yabancı cihazların PAC portunuza göndererek bellek sızdırmasını (DDoS) engellemek adına Asenkron Bağlantı Limiti (Maksimum 50) eklidir. 
 5. **Anti-XSS ve Strict-Scope (RCE Engeli):** Arayüzden gelebilecek tüm Zararlı kod (CSS/JS) ihtimalleri, sıkı `DOMPurify` süzgecinden geçirilir ve Tauri'nin işletim sistemi tetikleme (Shell) yetkileri "Yalnızca Kendi Core'unu" çalıştırabilecek şekilde izole edilmiştir.
@@ -122,7 +122,7 @@ BypaxDPI, kod düzeyindedir ve tamamen "0 Zafiyet" denetiminden (Security Audit)
 
 ## 🔧 Nasıl Çalışır? (Kurulum)
 
-1. **İndirin**: Projenin [Releases sayfası](https://github.com/BypaxDPI/BypaxDPI-Windows/releases) bağlantısına gidip en güncel versiyonun `.exe / .msi` dosyasını bilgisayarınıza indirin.
+1. **İndirin**: Projenin [Releases sayfası](https://github.com/kellecore/KelleDPI/releases) bağlantısına gidip en güncel versiyonun `.exe / .msi` dosyasını bilgisayarınıza indirin.
 2. **Kurun**: Uygulamayı çalıştırın. Kendi yerleşik (gömülü) motorunu kullanacağı için WinPcap vb. hiçbir ek program / sürücü yüklemenize **asla** gerek yoktur.
 3. **Açın ve Tıklayın**: İsterseniz Ayarlar (Dişli İkonu) sekmesinden *DoH DNS*, *Güçlü Mod* ve *LAN Paylaşımı (Telefon)* özelliklerini zevkinize göre açıp; ana ekrandaki **BAĞLAN** tuşuna dokunmanız yeterlidir. Ekranda **Güvenli** yazdığı an Discord ve ötesindeki dünyaya aitsiniz.
 
@@ -130,7 +130,7 @@ BypaxDPI, kod düzeyindedir ve tamamen "0 Zafiyet" denetiminden (Security Audit)
 
 ## 🤝 Geliştirici & Destek
 
-Bu proje açık kaynaklı, tamamen hür bir topluluk girişimidir. BypaxDPI'ın yaşaması, donanımlarının güncellenmesi için bana kahve ısmarlamak isterseniz:
+Bu proje açık kaynaklı, tamamen hür bir topluluk girişimidir. KelleDPI'ın yaşaması, donanımlarının güncellenmesi için bana kahve ısmarlamak isterseniz:
 
 - **GitHub Sponsor:** [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MuratGuelr)
 - **Patreon:** [![Patreon](https://img.shields.io/badge/MuratGuelr-purple?logo=patreon&label=Patreon)](https://www.patreon.com/join/ConsolAktif)
@@ -142,7 +142,7 @@ Bu proje açık kaynaklı, tamamen hür bir topluluk girişimidir. BypaxDPI'ın 
 ## 🔒 Gizlilik ve Telemetri (Sıfır Log)
 
 > [!IMPORTANT]
-> BypaxDPI %100 Anonimdir ve **HERHANGİ BİR TELEMETRİ VEYA VERİ TOPLAMA YAPISI BARINDIRMAZ.** 
+> KelleDPI %100 Anonimdir ve **HERHANGİ BİR TELEMETRİ VEYA VERİ TOPLAMA YAPISI BARINDIRMAZ.** 
 > Hiçbir IP adresiniz, girdiğiniz internet siteleri (URL'ler), işletim sistemi bilgileriniz ne bir sunucuya ne de bize asla gönderilmez. Uygulama logları RAM'de (geçici hafızada) işlenir; program kapatıldığı saniye kainattan silinir. 
 
 ---
@@ -150,10 +150,10 @@ Bu proje açık kaynaklı, tamamen hür bir topluluk girişimidir. BypaxDPI'ın 
 ## ⚖️ Sorumluluk Reddi
 
 - **Bu yazılım yerel ağ problemleri eğitimi, soket debugging ve erişilebilirlik laboratuvarı (Bypass algoritmalarını simüle etme) amaçlı yazılmıştır.**
-- BypaxDPI yalnızca local makinenizde giden HTTPS trafiğinin TLS paketlerini (SNI katmanı) bölerek yeniden organize eder (Packet Fragmentation). Herhangi bir uzak VPN sunucusu ile veri alışverişi (Şifre çözücü tünel) sağlamaz, bu yüzden bankacılık dahil tüm işlemleriniz ISP/Browser ile kendi aranızdadır.
-- Yazılım kişisel kullanıma açık ve ücretsizdir; ticari, yasadışı ya da manipülatif amaçlı siber ihlaller hedefinde kullanılamaz. BypaxDPI ile gerçekleştirilen tüm erişim faaliyetleri ve oluşacak teknik/yasal yükümlülükler tamamen son kullanıcıya (kullanıcıya) aittir. Üretici kanun yolları için sorumluluk reddinde bulunur. 
+- KelleDPI yalnızca local makinenizde giden HTTPS trafiğinin TLS paketlerini (SNI katmanı) bölerek yeniden organize eder (Packet Fragmentation). Herhangi bir uzak VPN sunucusu ile veri alışverişi (Şifre çözücü tünel) sağlamaz, bu yüzden bankacılık dahil tüm işlemleriniz ISP/Browser ile kendi aranızdadır.
+- Yazılım kişisel kullanıma açık ve ücretsizdir; ticari, yasadışı ya da manipülatif amaçlı siber ihlaller hedefinde kullanılamaz. KelleDPI ile gerçekleştirilen tüm erişim faaliyetleri ve oluşacak teknik/yasal yükümlülükler tamamen son kullanıcıya (kullanıcıya) aittir. Üretici kanun yolları için sorumluluk reddinde bulunur. 
 
 <br>
 <div align="center">
-  <strong>🔥 BypaxDPI ile kesintisiz ve şeffaf internete hoş geldiniz!</strong>
+  <strong>🔥 KelleDPI ile kesintisiz ve şeffaf internete hoş geldiniz!</strong>
 </div>

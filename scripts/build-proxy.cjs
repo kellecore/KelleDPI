@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build SpoofDPI 1.2.1 (bypax-proxy) and copy to spoofdpi/ and src-tauri/binaries/.
+ * Build SpoofDPI 1.2.1 (kelle-proxy) and copy to spoofdpi/ and src-tauri/binaries/.
  * Requires Go in PATH.
  */
 const { spawnSync } = require('child_process');
@@ -9,7 +9,7 @@ const fs = require('fs');
 
 const root = path.resolve(__dirname, '..');
 const spoofDpiDir = path.join(root, 'SpoofDPI-1.2.1', 'SpoofDPI-1.2.1');
-const outExe = path.join(root, 'spoofdpi', 'bypax-proxy.exe');
+const outExe = path.join(root, 'spoofdpi', 'kelle-proxy.exe');
 
 if (!fs.existsSync(path.join(spoofDpiDir, 'go.mod'))) {
   console.error('SpoofDPI-1.2.1 source not found at', spoofDpiDir);
@@ -21,7 +21,7 @@ if (!fs.existsSync(spoofdpiDir)) {
   fs.mkdirSync(spoofdpiDir, { recursive: true });
 }
 
-console.log('Building SpoofDPI (bypax-proxy) with release flags...');
+console.log('Building SpoofDPI (kelle-proxy) with release flags...');
 const go = spawnSync('go', ['build', '-trimpath', '-ldflags=-s -w', '-o', outExe, './cmd/spoofdpi'], {
   cwd: spoofDpiDir,
   stdio: 'inherit',

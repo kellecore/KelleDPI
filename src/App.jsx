@@ -8,7 +8,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { getTranslations } from "./i18n";
 import { DNS_MAP, DOH_MAP, URLS, APP, RETRY_DELAYS, DPI_TIMEOUTS } from "./constants";
 import { ISP_PROFILES, VALID_CHUNK_SIZES, VALID_DPI_METHODS, DEFAULT_CHUNKS } from "./profiles";
-import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from "./dpiBlacklist";
+import { DEFAULT_DPI_BLACKLIST_TEXT, normalizeDpiBlacklistText } from "./kelleDpiBlacklist";
 
 // Re-add missing imports
 import DOMPurify from "dompurify";
@@ -145,7 +145,7 @@ function App() {
   // Settings State
   // ✅ İlk giriş overlay state
   const [showFirstRunISS, setShowFirstRunISS] = useState(() => {
-    return !localStorage.getItem('bypax_first_run_done');
+    return !localStorage.getItem('kelle_first_run_done');
   });
 
   const [config, setConfig] = useState(() => {
@@ -165,7 +165,7 @@ function App() {
       dpiBlacklistText: DEFAULT_DPI_BLACKLIST_TEXT,
     };
 
-    const saved = localStorage.getItem("bypax_config");
+    const saved = localStorage.getItem("kelle_config");
     if (saved) {
       try {
         // P1-FIX: LocalStorage Obfuscation (Uyumluluk için önce düz metin mi kontrol et)
@@ -235,7 +235,7 @@ function App() {
         newConfig = { ...prev, [keyOrObj]: value };
       }
       // P1-FIX: Base64 kodlaması kaldırıldı, plaintext validasyonlu yazılıyor
-      localStorage.setItem("bypax_config", JSON.stringify(newConfig));
+      localStorage.setItem("kelle_config", JSON.stringify(newConfig));
       return newConfig;
     });
   };
@@ -409,19 +409,19 @@ function App() {
                 .find((key) => DNS_MAP[key] === DNS_MAP[selectedDns])
                 ?.toUpperCase()
             : "SYSTEM";
-          tooltip = `🟢 BypaxDPI - ${t.statusConnected}\n127.0.0.1:${currentPortRef.current}\nDNS: ${dnsName}`;
+          tooltip = `🟢 KelleDPI - ${t.statusConnected}\n127.0.0.1:${currentPortRef.current}\nDNS: ${dnsName}`;
           break;
         case "disconnected":
-          tooltip = `🔴 BypaxDPI - ${t.statusInactive}`;
+          tooltip = `🔴 KelleDPI - ${t.statusInactive}`;
           break;
         case "retrying":
-          tooltip = `🔄 BypaxDPI - ${t.btnConnecting}\n${retryCount.current}/5...`;
+          tooltip = `🔄 KelleDPI - ${t.btnConnecting}\n${retryCount.current}/5...`;
           break;
         case "connecting":
-          tooltip = `⏳ BypaxDPI - ${t.btnConnecting}`;
+          tooltip = `⏳ KelleDPI - ${t.btnConnecting}`;
           break;
         default:
-          tooltip = "🛡️ BypaxDPI";
+          tooltip = "🛡️ KelleDPI";
       }
       await invoke("update_tray_tooltip", { tooltip });
     } catch (e) {
@@ -444,7 +444,7 @@ function App() {
       // Maksimum deneme aşıldı
       addLog(`=4 ${t.logMaxRetries}`, "error", { i18nKey: "logMaxRetries" });
       addLog("", "info");
-      addLog(`=� ${t.logPossibleReasons}`, "warn", {
+      addLog(`${t.logPossibleReasons}`, "warn", {
         i18nKey: "logPossibleReasons",
       });
       addLog(`  • ${t.logReasonInternet}`, "info", {
@@ -455,7 +455,7 @@ function App() {
       });
       addLog(`  • ${t.logReasonPorts}`, "info", { i18nKey: "logReasonPorts" });
       addLog("", "info");
-      addLog(`=� ${t.logSolutions}`, "warn", { i18nKey: "logSolutions" });
+      addLog(`${t.logSolutions}`, "warn", { i18nKey: "logSolutions" });
       addLog(`  • ${t.logSolInternet}`, "info", { i18nKey: "logSolInternet" });
       addLog(`  • ${t.logSolFirewall}`, "info", { i18nKey: "logSolFirewall" });
       addLog(`  • ${t.logSolAdmin}`, "info", { i18nKey: "logSolAdmin" });
@@ -660,7 +660,7 @@ function App() {
         args.push("--https-split-mode", "sni");
       }
 
-      const command = Command.sidecar("binaries/bypax-proxy", args);
+      const command = Command.sidecar("binaries/kelle-proxy", args);
 
       let connectionConfirmed = false;
       let isReady = false;
@@ -799,7 +799,7 @@ function App() {
           setIsConnected(true);
           setIsProcessing(false);
           addLog(t.logConnected, "success", { i18nKey: "logConnected" });
-          notifyUser("Bypax", t.logConnected, "connect");
+          notifyUser("Kelle", t.logConnected, "connect");
           updateTrayTooltip("connected");
           if (configRef.current.lanSharing) {
             (async () => {
@@ -908,7 +908,7 @@ function App() {
             addLog(t.logNpcapFallback || "⚠️ Npcap sürücüsü yanıt vermiyor. Gelişmiş bypass kapatılıp tekrar deneniyor...", "warn");
             configRef.current = { ...configRef.current, advancedBypass: false };
             setConfig(prev => ({ ...prev, advancedBypass: false }));
-            localStorage.setItem('bypax_config', JSON.stringify({ ...configRef.current, advancedBypass: false }));
+            localStorage.setItem('kelle_config', JSON.stringify({ ...configRef.current, advancedBypass: false }));
             retryCount.current = 0; // Reset retry
             fatalErrorRef.current = false; // Hatayı temizle, tekrar denesin
             setIsProcessing(true);
@@ -930,7 +930,7 @@ function App() {
             addLog(`🔄 ${t.logAutoReconnect}`, "info", {
               i18nKey: "logAutoReconnect",
             });
-            notifyUser("BypaxDPI", t.logAutoReconnect, "disconnect");
+            notifyUser("KelleDPI", t.logAutoReconnect, "disconnect");
             setIsProcessing(true);
             attemptReconnect();
           }
@@ -984,7 +984,7 @@ function App() {
           setIsConnected(true);
           setIsProcessing(false);
           addLog(t.logConnected, "info", { i18nKey: "logConnected" });
-          notifyUser("BypaxDPI", t.logConnected, "connect");
+          notifyUser("KelleDPI", t.logConnected, "connect");
           updateTrayTooltip("connected"); // ✅ Auto-connect başarılı
           if (configRef.current.lanSharing) {
             try {
@@ -1011,7 +1011,7 @@ function App() {
       const errStr = String(e).toLowerCase();
       if (errStr.includes("denied") || errStr.includes("access") || errStr.includes("not found") || errStr.includes("os error")) {
         addLog(
-          "⚠️ " + (t.logAntivirusWarning || "Windows Defender veya antivirüs yazılımınız 'bypax-proxy.exe' dosyasını engellemiş olabilir. Lütfen dosyayı antivirüs dışlama listesine (exclusion) ekleyin."),
+          "⚠️ " + (t.logAntivirusWarning || "Windows Defender veya antivirüs yazılımınız 'kelle-proxy.exe' dosyasını engellemiş olabilir. Lütfen dosyayı antivirüs dışlama listesine (exclusion) ekleyin."),
           "warn",
           { i18nKey: "logAntivirusWarning" }
         );
@@ -1071,7 +1071,7 @@ function App() {
 
       // Eğer kapatma (shutdown) sırasındaysa, bildirim yollama.
       if (!isAppClosingRef.current) {
-        notifyUser("BypaxDPI", t.notifDisconnectManual, "disconnect_manual"); // Özel notification event tipi
+        notifyUser("KelleDPI", t.notifDisconnectManual, "disconnect_manual"); // Özel notification event tipi
       }
 
       setIsProcessing(false);
@@ -1237,7 +1237,7 @@ function App() {
 
         // P1-FIX: Auto-Connect Race Condition çözümü (Temizlik adımları tamamlandıktan SONRA bağlan)
         // ✅ İlk giriş overlay'ı açıksa auto-connect yapma — kullanıcı ISS seçsin önce
-        const isFirstRun = !localStorage.getItem('bypax_first_run_done');
+        const isFirstRun = !localStorage.getItem('kelle_first_run_done');
         if (configRef.current.autoConnect && !childProcess.current && !isFirstRun) {
           setIsProcessing(true);
           startEngine(8080);
@@ -1276,7 +1276,7 @@ function App() {
           getCurrentWindow().setFocus();
           const confirmed = await customConfirm(
             t.confirmExitDesc ||
-              "Bypax motorunu durdurup çıkmak istediğinize emin misiniz?",
+              "Kelle motorunu durdurup çıkmak istediğinize emin misiniz?",
             { title: t.confirmExitTitle || "Çıkış" },
           );
           if (!confirmed) {
@@ -1379,7 +1379,7 @@ function App() {
     if (configRef.current.requireConfirmation !== false) {
       const confirmed = await customConfirm(
         t.confirmExitDesc ||
-          "Bypax motorunu durdurup çıkmak istediğinize emin misiniz?",
+          "Kelle motorunu durdurup çıkmak istediğinize emin misiniz?",
         { title: t.confirmExitTitle || "Çıkış" },
       );
       if (!confirmed) return;
@@ -1452,8 +1452,8 @@ function App() {
       updateTrayTooltip('disconnected');
     };
     
-    window.addEventListener('bypax-force-disconnect', handleForceDisconnect);
-    return () => window.removeEventListener('bypax-force-disconnect', handleForceDisconnect);
+    window.addEventListener('kelle-force-disconnect', handleForceDisconnect);
+    return () => window.removeEventListener('kelle-force-disconnect', handleForceDisconnect);
   }, []);
 
   // DPI & Layout Scaling Fix
@@ -1575,8 +1575,8 @@ function App() {
               }}
             >
               <img
-                src="/bypax-logo.png"
-                alt="BypaxDPI"
+                src="/kelle-logo.png"
+                alt="KelleDPI"
                 style={{
                   width: "70px",
                   height: "70px",
@@ -1587,7 +1587,7 @@ function App() {
                 }}
               />
               <h1 style={{ fontSize: "1.3rem", fontWeight: "600", color: "#fff", marginBottom: "0.5rem" }}>
-                {t.confirmExitTitle || "BypaxDPI Kapatılıyor"}
+                {t.confirmExitTitle || "KelleDPI Kapatılıyor"}
               </h1>
               <p style={{ color: "#a1a1aa", fontSize: "0.95rem" }}>
                 <AnimatePresence mode="wait">
@@ -1662,8 +1662,8 @@ function App() {
               }}
             >
               <img
-                src="/bypax-logo.png"
-                alt="BypaxDPI"
+                src="/kelle-logo.png"
+                alt="KelleDPI"
                 style={{
                   width: "80px",
                   height: "80px",
@@ -1849,7 +1849,7 @@ function App() {
             }} />
 
             <div style={{ zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "420px", width: "100%" }}>
-              <img src="/bypax-logo.png" alt="BypaxDPI" style={{ width: "56px", height: "56px", marginBottom: "1rem", borderRadius: "12px", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)" }} />
+              <img src="/kelle-logo.png" alt="KelleDPI" style={{ width: "56px", height: "56px", marginBottom: "1rem", borderRadius: "12px", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)" }} />
               <h1 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "#fff", fontWeight: "700" }}>{t.issOverlayTitle}</h1>
               <p style={{ color: "#a1a1aa", marginBottom: "1.25rem", lineHeight: "1.5", fontSize: "0.85rem" }}>{t.issOverlayDesc}</p>
 
@@ -1912,7 +1912,7 @@ function App() {
 
               <button
                 onClick={() => {
-                  localStorage.setItem('bypax_first_run_done', 'true');
+                  localStorage.setItem('kelle_first_run_done', 'true');
                   setShowFirstRunISS(false);
                   // Otomatik bağlan
                   if (!isConnected && !isProcessing) {
@@ -1949,7 +1949,7 @@ function App() {
 
               <button
                 onClick={() => {
-                  localStorage.setItem('bypax_first_run_done', 'true');
+                  localStorage.setItem('kelle_first_run_done', 'true');
                   setShowFirstRunISS(false);
                 }}
                 style={{
@@ -1974,8 +1974,8 @@ function App() {
       {/* Header */}
       <header className="app-header">
         <div className="brand">
-          <img src="/bypax-logo.png" alt="BypaxDPI" className="brand-logo" />
-          <span className="brand-name">BYPAXDPI</span>
+          <img src="/kelle-logo.png" alt="KelleDPI" className="brand-logo" />
+          <span className="brand-name">KELLEDPI</span>
         </div>
         <div
           className={`status-badge ${isConnected ? "active" : isProcessing ? "processing" : "passive"}`}

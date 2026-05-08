@@ -39,7 +39,7 @@ ${StrLoc}
 !define INSTALLMODE "{{install_mode}}"
 !define LICENSE "{{license}}"
 !define INSTALLERICON "{{installer_icon}}"
-!define MUI_UNICON "C:\Users\ConsolAktif\Documents\GitHub\BypaxDPI-Windows\src-tauri\icons\uninstall.ico"
+!define MUI_UNICON "C:\Users\ConsolAktif\Documents\GitHub\KelleDPI\src-tauri\icons\uninstall.ico"
 !define SIDEBARIMAGE "{{sidebar_image}}"
 !define HEADERIMAGE "{{header_image}}"
 !define MAINBINARYNAME "{{main_binary_name}}"

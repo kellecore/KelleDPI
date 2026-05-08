@@ -45,15 +45,15 @@ fn main() {
 
             // Zombi bypass-proxy süreçlerini de öldür
             let _ = std::process::Command::new("taskkill")
-                .args(["/F", "/IM", "bypax-proxy.exe"])
+                .args(["/F", "/IM", "kelle-proxy.exe"])
                 .creation_flags(CREATE_NO_WINDOW)
                 .stdout(std::process::Stdio::null())
                 .stderr(std::process::Stdio::null())
                 .status();
         }
 
-        eprintln!("BypaxDPI PANIC: {}", panic_info);
+        eprintln!("KelleDPI PANIC: {}", panic_info);
     }));
 
-    bypax_tauri_lib::run()
+    kelle_tauri_lib::run()
 }

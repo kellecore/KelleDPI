@@ -1,13 +1,13 @@
 ; ═══════════════════════════════════════════════════════════
-; BypaxDPI NSIS Installer Hooks
+; KelleDPI NSIS Installer Hooks
 ; ═══════════════════════════════════════════════════════════
 
 ; ─── KURULUM ÖNCESİ ───
 !macro NSIS_HOOK_PREINSTALL
     ; Eski sürüm çalışıyorsa kapat
-    nsExec::ExecToStack 'taskkill /F /IM BypaxDPI.exe'
+    nsExec::ExecToStack 'taskkill /F /IM KelleDPI.exe'
     Pop $0
-    nsExec::ExecToStack 'taskkill /F /IM bypax-proxy.exe'
+    nsExec::ExecToStack 'taskkill /F /IM kelle-proxy.exe'
     Pop $0
     Sleep 500
 
@@ -22,14 +22,14 @@
     Pop $0
 
     ; Sentinel temizle
-    Delete "$TEMP\bypaxdpi_proxy_active.lock"
-    Delete "$TEMP\bypaxdpi_sidecar.pid"
+    Delete "$TEMP\kelledpi_proxy_active.lock"
+    Delete "$TEMP\kelledpi_sidecar.pid"
 !macroend
 
 ; ─── KALDIRMA ÖNCESİ ───
 !macro NSIS_HOOK_PREUNINSTALL
     ; 0. Uygulamayı kapat
-    nsExec::ExecToStack 'taskkill /F /IM BypaxDPI.exe'
+    nsExec::ExecToStack 'taskkill /F /IM KelleDPI.exe'
     Pop $0
     Sleep 1000
 
@@ -44,21 +44,21 @@
     Pop $0
 
     ; 2. Sentinel ve PID dosyalarını temizle
-    Delete "$TEMP\bypaxdpi_proxy_active.lock"
-    Delete "$TEMP\bypaxdpi_sidecar.pid"
+    Delete "$TEMP\kelledpi_proxy_active.lock"
+    Delete "$TEMP\kelledpi_sidecar.pid"
 
     ; 3. Zombi sidecar öldür
-    nsExec::ExecToStack 'taskkill /F /IM bypax-proxy.exe'
+    nsExec::ExecToStack 'taskkill /F /IM kelle-proxy.exe'
     Pop $0
 
     ; 4. Firewall kurallarını temizle
-    nsExec::ExecToStack 'netsh advfirewall firewall delete rule name=BypaxDPI_Proxy'
+    nsExec::ExecToStack 'netsh advfirewall firewall delete rule name=KelleDPI_Proxy'
     Pop $0
-    nsExec::ExecToStack 'netsh advfirewall firewall delete rule name=BypaxDPI_PAC'
+    nsExec::ExecToStack 'netsh advfirewall firewall delete rule name=KelleDPI_PAC'
     Pop $0
 
     ; 5. Autostart registry kaydını temizle
-    DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "BypaxDPI"
+    DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "KelleDPI"
 
     ; 6. DNS önbelleğini temizle
     nsExec::ExecToStack 'ipconfig /flushdns'

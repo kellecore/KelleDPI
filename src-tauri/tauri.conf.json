@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "BypaxDPI",
+  "productName": "KelleDPI",
   "version": "1.0.0",
-  "identifier": "com.consolaktif.bypaxdpi",
+  "identifier": "com.consolaktif.kelledpi",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "BypaxDPI",
+        "title": "KelleDPI",
         "width": 380,
         "height": 700,
         "resizable": false,
@@ -30,7 +30,7 @@
   "bundle": {
     "active": true,
     "externalBin": [
-      "binaries/bypax-proxy"
+      "binaries/kelle-proxy"
     ],
     "resources": [
       "binaries/npcap-installer.exe"

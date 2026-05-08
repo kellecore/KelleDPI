@@ -4,7 +4,7 @@ import {
   DEFAULT_DPI_BLACKLIST,
   DEFAULT_DPI_BLACKLIST_TEXT,
   normalizeDpiBlacklistText,
-} from "./dpiBlacklist.js";
+} from "./kelleDpiBlacklist.js";
 
 test("normalizes custom DPI blacklist text into unique domains", () => {
   const input = `

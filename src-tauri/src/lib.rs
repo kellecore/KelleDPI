@@ -170,7 +170,7 @@ mod registry {
 /// Sentinel dosya yolu — proxy aktifken var, kapanınca silinir.
 /// Crash/BSOD/force-kill sonrası hâlâ duruyorsa → dirty shutdown algılanır.
 fn sentinel_path() -> std::path::PathBuf {
-    std::env::temp_dir().join("bypaxdpi_proxy_active.lock")
+    std::env::temp_dir().join("kelledpi_proxy_active.lock")
 }
 
 /// PAC dosyası yolu — AutoConfigURL ile proxy yapılandırması için
@@ -395,7 +395,7 @@ const SUPPORT_URL: &str = "https://www.patreon.com/join/ConsolAktif";
 /// Bu sayede cihazlar internet erişimini kaybetmez
 fn make_pac_direct_body() -> String {
     r#"function FindProxyForURL(url, host) {
-    // BypaxDPI proxy devre dışı — tüm trafik doğrudan çıkış
+    // KelleDPI proxy devre dışı — tüm trafik doğrudan çıkış
     // Bu PAC dosyası otomatik olarak sunulur; ayar değişikliği gerekmez
     return "DIRECT";
 }
@@ -459,7 +459,7 @@ fn make_setup_html(pac_url: &str) -> String {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-<title>BypaxDPI – Kurulum</title>
+<title>KelleDPI – Kurulum</title>
 <style>
 :root {{
     --bg-color: #09090b;
@@ -529,7 +529,7 @@ body {{ background-color: var(--bg-color); color: var(--text-main); line-height:
     </div>
 
     <header class="header">
-        <h1 class="title" data-tr="BypaxDPI'a Bağlan" data-en="Connect to BypaxDPI">BypaxDPI'a Bağlan</h1>
+        <h1 class="title" data-tr="KelleDPI'a Bağlan" data-en="Connect to KelleDPI">KelleDPI'a Bağlan</h1>
         <p class="subtitle" data-tr="İnternet trafiğinizi şifreleyin ve engelleri aşın" data-en="Bypass Internet Restrictions">İnternet Engellerini Aşın</p>
     </header>
 
@@ -537,7 +537,7 @@ body {{ background-color: var(--bg-color); color: var(--text-main); line-height:
         <span class="notice-icon">⚠</span>
         <div>
             <strong data-tr="DİKKAT:" data-en="ATTENTION:">DİKKAT:</strong>
-            <span data-tr="Bypax kapatıldıktan sonra YouTube vb. uygulamalarda internet sorunu yaşarsanız (eski önbellek nedeniyle), Wi-Fi bağlantısını kapatıp açmanız yeterlidir." data-en="If apps like YouTube lose internet access after closing Bypax (due to cached connections), simply toggle your Wi-Fi off and on.">Bypax kapatıldıktan sonra YouTube vb. uygulamalarda internet sorunu yaşarsanız (eski önbellek nedeniyle), Wi-Fi bağlantısını kapatıp açmanız yeterlidir.</span>
+            <span data-tr="Kelle kapatıldıktan sonra YouTube vb. uygulamalarda internet sorunu yaşarsanız (eski önbellek nedeniyle), Wi-Fi bağlantısını kapatıp açmanız yeterlidir." data-en="If apps like YouTube lose internet access after closing Kelle (due to cached connections), simply toggle your Wi-Fi off and on.">Kelle kapatıldıktan sonra YouTube vb. uygulamalarda internet sorunu yaşarsanız (eski önbellek nedeniyle), Wi-Fi bağlantısını kapatıp açmanız yeterlidir.</span>
         </div>
     </div>
 
@@ -554,7 +554,7 @@ body {{ background-color: var(--bg-color); color: var(--text-main); line-height:
             Adresi Kopyala
         </button>
 
-        <a href="https://bypaxdpi.vercel.app/proxy" target="_blank" class="btn-guide" data-tr="❓ Görsel Kurulum Rehberi" data-en="❓ Visual Setup Guide">
+        <a href="https://kelledpi.vercel.app/proxy" target="_blank" class="btn-guide" data-tr="❓ Görsel Kurulum Rehberi" data-en="❓ Visual Setup Guide">
             ❓ Görsel Kurulum Rehberi
         </a>
 
@@ -820,7 +820,7 @@ fn manage_firewall_rules(enable: bool, proxy_port: u16, pac_port: u16) {
                 "firewall",
                 "delete",
                 "rule",
-                "name=BypaxDPI_Proxy",
+                "name=KelleDPI_Proxy",
             ])
             .creation_flags(CREATE_NO_WINDOW)
             .stdout(std::process::Stdio::null())
@@ -833,7 +833,7 @@ fn manage_firewall_rules(enable: bool, proxy_port: u16, pac_port: u16) {
                 "firewall",
                 "delete",
                 "rule",
-                "name=BypaxDPI_PAC",
+                "name=KelleDPI_PAC",
             ])
             .creation_flags(CREATE_NO_WINDOW)
             .stdout(std::process::Stdio::null())
@@ -847,7 +847,7 @@ fn manage_firewall_rules(enable: bool, proxy_port: u16, pac_port: u16) {
                     "firewall",
                     "add",
                     "rule",
-                    "name=BypaxDPI_Proxy",
+                    "name=KelleDPI_Proxy",
                     "dir=in",
                     "action=allow",
                     "protocol=TCP",
@@ -864,7 +864,7 @@ fn manage_firewall_rules(enable: bool, proxy_port: u16, pac_port: u16) {
                     "firewall",
                     "add",
                     "rule",
-                    "name=BypaxDPI_PAC",
+                    "name=KelleDPI_PAC",
                     "dir=in",
                     "action=allow",
                     "protocol=TCP",
@@ -1244,7 +1244,7 @@ fn build_dpi_blacklist_config(domains: &[String]) -> Result<String, String> {
 #[tauri::command]
 fn write_dpi_blacklist_config(domains: Vec<String>) -> Result<String, String> {
     let config = build_dpi_blacklist_config(&domains)?;
-    let path = std::env::temp_dir().join("bypaxdpi_spoofdpi_blacklist.toml");
+    let path = std::env::temp_dir().join("kelledpi_spoofdpi_blacklist.toml");
     std::fs::write(&path, config).map_err(|e| e.to_string())?;
     Ok(path.to_string_lossy().to_string())
 }
@@ -1413,14 +1413,14 @@ fn perform_app_exit(app: &tauri::AppHandle) {
     app.exit(0);
 }
 
-/// Uygulama açıldığında eski bypax-proxy süreçlerini temizle (Zombi süreç önleme)
+/// Uygulama açıldığında eski kelle-proxy süreçlerini temizle (Zombi süreç önleme)
 #[tauri::command]
 fn save_sidecar_pid(pid: u32) {
-    let pid_file = std::env::temp_dir().join("bypaxdpi_sidecar.pid");
+    let pid_file = std::env::temp_dir().join("kelledpi_sidecar.pid");
     let _ = std::fs::write(&pid_file, pid.to_string());
 }
 
-/// Uygulama açıldığında eski bypax-proxy süreçlerini temizle (Zombi süreç önleme)
+/// Uygulama açıldığında eski kelle-proxy süreçlerini temizle (Zombi süreç önleme)
 #[tauri::command]
 fn kill_zombie_sidecar() -> Result<String, String> {
     #[cfg(target_os = "windows")]
@@ -1428,7 +1428,7 @@ fn kill_zombie_sidecar() -> Result<String, String> {
         use std::os::windows::process::CommandExt;
         const CREATE_NO_WINDOW: u32 = 0x08000000;
 
-        let pid_file = std::env::temp_dir().join("bypaxdpi_sidecar.pid");
+        let pid_file = std::env::temp_dir().join("kelledpi_sidecar.pid");
         if let Ok(pid_str) = std::fs::read_to_string(&pid_file) {
             if let Ok(pid) = pid_str.trim().parse::<u32>() {
                 if pid > 0 {
@@ -1568,7 +1568,7 @@ fn quit_app(app: tauri::AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // P0-FIX: Single-instance enforcement — aynı anda sadece bir BypaxDPI çalışabilir
+    // P0-FIX: Single-instance enforcement — aynı anda sadece bir KelleDPI çalışabilir
     #[cfg(target_os = "windows")]
     {
         use std::ptr::null_mut;
@@ -1576,17 +1576,17 @@ pub fn run() {
         use winapi::um::errhandlingapi::GetLastError;
         use winapi::um::synchapi::CreateMutexW;
 
-        let mutex_name: Vec<u16> = "Global\\BypaxDPI_SingleInstance\0".encode_utf16().collect();
+        let mutex_name: Vec<u16> = "Global\\KelleDPI_SingleInstance\0".encode_utf16().collect();
 
         unsafe {
             let handle = CreateMutexW(null_mut(), 0, mutex_name.as_ptr());
             if handle.is_null() || GetLastError() == ERROR_ALREADY_EXISTS {
-                eprintln!("[STARTUP] ❌ BypaxDPI zaten çalışıyor — çıkılıyor");
+                eprintln!("[STARTUP] ❌ KelleDPI zaten çalışıyor — çıkılıyor");
 
                 use winapi::um::winuser::{
                     FindWindowW, IsIconic, SetForegroundWindow, ShowWindow, SW_RESTORE,
                 };
-                let window_name: Vec<u16> = "BypaxDPI\0".encode_utf16().collect();
+                let window_name: Vec<u16> = "KelleDPI\0".encode_utf16().collect();
                 let hwnd = FindWindowW(null_mut(), window_name.as_ptr());
                 if !hwnd.is_null() {
                     if IsIconic(hwnd) != 0 {
@@ -1632,7 +1632,7 @@ pub fn run() {
                     .menu(&menu)
                     .show_menu_on_left_click(false) // ✅ Sol tıkta menü açılmasın, sadece sağ tıkta
                     .icon(app.default_window_icon().unwrap().clone())
-                    .tooltip("BypaxDPI - Kapalı")
+                    .tooltip("KelleDPI - Kapalı")
                     .on_menu_event(|app, event| match event.id.as_ref() {
                         "quit" => {
                             if let Some(window) = app.get_webview_window("main") {
