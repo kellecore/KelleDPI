@@ -1573,7 +1573,7 @@ function App() {
               }}
             >
               <img
-                src="/kelle-logo.png"
+                src="/yenilogo.png"
                 alt="KelleDPI"
                 style={{
                   width: "70px",
@@ -1660,7 +1660,7 @@ function App() {
               }}
             >
               <img
-                src="/kelle-logo.png"
+                src="/yenilogo.png"
                 alt="KelleDPI"
                 style={{
                   width: "80px",
@@ -1847,7 +1847,7 @@ function App() {
             }} />
 
             <div style={{ zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "420px", width: "100%" }}>
-              <img src="/kelle-logo.png" alt="KelleDPI" style={{ width: "56px", height: "56px", marginBottom: "1rem", borderRadius: "12px", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)" }} />
+              <img src="/yenilogo.png" alt="KelleDPI" style={{ width: "56px", height: "56px", marginBottom: "1rem", borderRadius: "12px", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)" }} />
               <h1 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "#fff", fontWeight: "700" }}>{t.issOverlayTitle}</h1>
               <p style={{ color: "#a1a1aa", marginBottom: "1.25rem", lineHeight: "1.5", fontSize: "0.85rem" }}>{t.issOverlayDesc}</p>
 
@@ -1972,7 +1972,7 @@ function App() {
       {/* Header */}
       <header className="app-header">
         <div className="brand">
-          <img src="/kelle-logo.png" alt="KelleDPI" className="brand-logo" />
+          <img src="/yenilogo.png" alt="KelleDPI" className="brand-logo" />
           <span className="brand-name">KELLEDPI</span>
         </div>
         <div

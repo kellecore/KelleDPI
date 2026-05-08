@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/kelle-logo.png" width="128" alt="KelleDPI Logo">
+  <img src="yenilogo.png" width="128" alt="KelleDPI Logo">
 </p>
 
 <h1 align="center">KelleDPI</h1>

@@ -10,8 +10,8 @@ async function main() {
     const rceditModule = await import('rcedit');
     const rcedit = rceditModule.rcedit || rceditModule.default;
     const exePath = path.join(__dirname, 'src-tauri', 'binaries', 'kelle-proxy-x86_64-pc-windows-msvc.exe');
-    const pngPath = path.join(__dirname, 'public', 'kelle-engine.png');
-    const iconPath = path.join(__dirname, 'src-tauri', 'icons', 'kelle-engine.ico');
+    const pngPath = path.join(__dirname, 'public', 'yenilogo.png');
+    const iconPath = path.join(__dirname, 'src-tauri', 'icons', 'yenilogo.ico');
     
     // Also convert uninstall.png to uninstall.ico
     const uninstallPngPath = path.join(__dirname, 'public', 'uninstall.png');
