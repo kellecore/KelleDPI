@@ -1458,13 +1458,12 @@ fn kill_zombie_sidecar() -> Result<String, String> {
 /// P0-FIX: Ortadaki Adam (Network Reconnaissance) Riskini Engellemek İçin Özel Ping Doğrulayıcı
 #[tauri::command]
 async fn check_dns_latency(dns_ip: String) -> Result<u32, String> {
-    // Sadece bilinen DNS IP'lerini kabul et (Arbitrary internal network scan'i önler)
     let allowed_ips = [
-        "1.1.1.1",        // Cloudflare
-        "8.8.8.8",        // Google
-        "9.9.9.9",        // Quad9
-        "94.140.14.14",   // AdGuard
-        "208.67.222.222", // OpenDNS
+        "1.1.1.1",
+        "8.8.8.8",
+        "9.9.9.9",
+        "94.140.14.14",
+        "208.67.222.222",
     ];
 
     if !allowed_ips.contains(&dns_ip.as_str()) {
@@ -1472,13 +1471,32 @@ async fn check_dns_latency(dns_ip: String) -> Result<u32, String> {
     }
 
     let start = std::time::Instant::now();
-    let addr = format!("{}:53", dns_ip)
-        .parse()
-        .map_err(|e: std::net::AddrParseError| e.to_string())?;
+    let socket = std::net::UdpSocket::bind("0.0.0.0:0").map_err(|e| e.to_string())?;
+    socket
+        .set_read_timeout(Some(std::time::Duration::from_millis(1500)))
+        .map_err(|e| e.to_string())?;
+    socket
+        .set_write_timeout(Some(std::time::Duration::from_millis(1500)))
+        .map_err(|e| e.to_string())?;
 
-    match std::net::TcpStream::connect_timeout(&addr, std::time::Duration::from_millis(1500)) {
-        Ok(_) => Ok(start.elapsed().as_millis() as u32),
-        Err(_) => Ok(999),
+    let query_id = 0x4b44u16;
+    let query = [
+        0x4b, 0x44, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, b'e',
+        b'x', b'a', b'm', b'p', b'l', b'e', 0x03, b'c', b'o', b'm', 0x00, 0x00, 0x01, 0x00,
+        0x01,
+    ];
+    let addr = format!("{}:53", dns_ip);
+    let mut response = [0u8; 512];
+
+    if socket.send_to(&query, &addr).is_err() {
+        return Ok(999);
+    }
+
+    match socket.recv_from(&mut response) {
+        Ok((len, _)) if len >= 12 && u16::from_be_bytes([response[0], response[1]]) == query_id => {
+            Ok(start.elapsed().as_millis() as u32)
+        }
+        _ => Ok(999),
     }
 }
 

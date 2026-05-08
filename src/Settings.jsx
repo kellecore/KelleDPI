@@ -116,13 +116,9 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
     
     const pingableProviders = DNS_PROVIDERS.filter(p => p.ip !== null);
     
-    const isSlowConnection = navigator.connection?.effectiveType === '3g' || navigator.connection?.effectiveType === '2g';
-    const TIMEOUT_MS = isSlowConnection ? 3000 : 1500;
-
     const results = await Promise.allSettled(
       pingableProviders.map(async (provider) => {
         try {
-          // P0-FIX: Frontend shell bypass edildi, güvenli arka uç kullanılıyor.
           const latency = await invoke('check_dns_latency', { dnsIp: provider.ip });
           return { id: provider.id, latency };
         } catch (e) {
@@ -141,15 +137,15 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
     setLatencies(newLatencies);
     
     const systemDns = DNS_PROVIDERS.find(p => p.id === 'system');
-    const otherDns = DNS_PROVIDERS.filter(p => p.id !== 'system').sort((a, b) => 
-      (newLatencies[a.id] || 999) - (newLatencies[b.id] || 999)
+    const otherDns = DNS_PROVIDERS.filter(p => p.id !== 'system').sort((a, b) =>
+      (newLatencies[a.id] ?? 9999) - (newLatencies[b.id] ?? 9999)
     );
     
     const sorted = systemDns ? [systemDns, ...otherDns] : otherDns;
     setSortedProviders(sorted);
     
     if (forceSelectBest || config.dnsMode === 'auto') {
-      const bestDns = otherDns[0];
+      const bestDns = otherDns.find((provider) => (newLatencies[provider.id] ?? 999) < 999);
       if (bestDns) {
         updateConfig('selectedDns', bestDns.id);
       }
@@ -890,8 +886,8 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                                 <span className="v2-dns-name">{p.name}</span>
                                 <span className="v2-dns-desc">{p.desc}</span>
                               </div>
-                              {latencies[p.id] && (
-                                <div className="v2-latency">{latencies[p.id]}ms</div>
+                              {latencies[p.id] !== undefined && (
+                                <div className="v2-latency">{latencies[p.id] >= 999 ? 'timeout' : `${latencies[p.id]}ms`}</div>
                               )}
                             </motion.div>
                           );
