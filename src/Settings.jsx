@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeft, ChevronDown, Globe, Power, Zap, RotateCw, Activity, Pin,  AlertTriangle, Check, Wrench, Languages, Bell, Shield, Settings as SettingsIcon
 } from 'lucide-react';
-import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart';
 import { Command } from '@tauri-apps/plugin-shell';
 import { invoke } from '@tauri-apps/api/core';
 import { getTranslations, SUPPORTED_LANGUAGES } from './i18n';
@@ -86,7 +85,7 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
 
   const checkAutostart = async () => {
     try {
-      const active = await isEnabled();
+      const active = await invoke('is_autostart_enabled');
       setAutostartEnabled(active);
     } catch (e) {
       console.error('Autostart check failed:', e);
@@ -95,11 +94,7 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
 
   const toggleAutostart = async (val) => {
     try {
-      if (val) {
-        await enable();
-      } else {
-        await disable();
-      }
+      await invoke('set_autostart_enabled', { enabled: val });
       setAutostartEnabled(val);
       updateConfig('autoStart', val);
     } catch (e) {

@@ -1407,6 +1407,80 @@ fn check_admin() -> bool {
     }
 }
 
+fn is_startup_launch() -> bool {
+    std::env::args().any(|arg| arg == "--startup")
+}
+
+#[cfg(target_os = "windows")]
+fn hidden_command_status(program: &str, args: &[&str]) -> Result<bool, String> {
+    use std::os::windows::process::CommandExt;
+    const CREATE_NO_WINDOW: u32 = 0x08000000;
+
+    std::process::Command::new(program)
+        .args(args)
+        .creation_flags(CREATE_NO_WINDOW)
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .status()
+        .map(|status| status.success())
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn is_autostart_enabled() -> Result<bool, String> {
+    #[cfg(target_os = "windows")]
+    {
+        hidden_command_status("schtasks", &["/Query", "/TN", "KelleDPI"])
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        Ok(false)
+    }
+}
+
+#[tauri::command]
+fn set_autostart_enabled(enabled: bool) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        let _ = hidden_command_status(
+            "reg",
+            &[
+                "delete",
+                r"HKCU\Software\Microsoft\Windows\CurrentVersion\Run",
+                "/v",
+                "KelleDPI",
+                "/f",
+            ],
+        );
+
+        if !enabled {
+            let _ = hidden_command_status("schtasks", &["/Delete", "/TN", "KelleDPI", "/F"]);
+            return Ok(());
+        }
+
+        let exe = std::env::current_exe().map_err(|e| e.to_string())?;
+        let task_run = format!("\"{}\" --startup", exe.display());
+        let created = hidden_command_status(
+            "schtasks",
+            &[
+                "/Create", "/TN", "KelleDPI", "/TR", &task_run, "/SC", "ONLOGON", "/RL", "HIGHEST",
+                "/F",
+            ],
+        )?;
+
+        if created {
+            Ok(())
+        } else {
+            Err("Otomatik başlangıç görevi oluşturulamadı. Uygulamayı yönetici olarak açıp tekrar deneyin.".to_string())
+        }
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        let _ = enabled;
+        Ok(())
+    }
+}
+
 #[cfg(target_os = "windows")]
 fn relaunch_as_admin() -> bool {
     use std::os::windows::ffi::OsStrExt;
@@ -1427,13 +1501,22 @@ fn relaunch_as_admin() -> bool {
         .chain(Some(0))
         .collect();
     let file: Vec<u16> = exe.as_os_str().encode_wide().chain(Some(0)).collect();
+    let params_text = std::env::args().skip(1).collect::<Vec<_>>().join(" ");
+    let params: Vec<u16> = std::ffi::OsStr::new(&params_text)
+        .encode_wide()
+        .chain(Some(0))
+        .collect();
 
     unsafe {
         let result = ShellExecuteW(
             null_mut(),
             operation.as_ptr(),
             file.as_ptr(),
-            null_mut(),
+            if params_text.is_empty() {
+                null_mut()
+            } else {
+                params.as_ptr()
+            },
             null_mut(),
             SW_SHOWNORMAL,
         ) as isize;
@@ -1620,6 +1703,8 @@ fn quit_app(app: tauri::AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let startup_launch = is_startup_launch();
+
     #[cfg(target_os = "windows")]
     {
         if !check_admin() {
@@ -1646,13 +1731,18 @@ pub fn run() {
                 eprintln!("[STARTUP] ❌ KelleDPI zaten çalışıyor — çıkılıyor");
 
                 use winapi::um::winuser::{
-                    FindWindowW, IsIconic, SetForegroundWindow, ShowWindow, SW_RESTORE,
+                    FindWindowW, IsIconic, SetForegroundWindow, ShowWindow, SW_RESTORE, SW_SHOW,
                 };
                 let window_name: Vec<u16> = "KelleDPI\0".encode_utf16().collect();
                 let hwnd = FindWindowW(null_mut(), window_name.as_ptr());
+                if is_startup_launch() {
+                    std::process::exit(0);
+                }
                 if !hwnd.is_null() {
                     if IsIconic(hwnd) != 0 {
                         ShowWindow(hwnd, SW_RESTORE);
+                    } else {
+                        ShowWindow(hwnd, SW_SHOW);
                     }
                     SetForegroundWindow(hwnd);
                 }
@@ -1669,7 +1759,7 @@ pub fn run() {
         .manage(PacServerState::default())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_notification::init())
-        .setup(|app| {
+        .setup(move |app| {
             #[cfg(desktop)]
             {
                 use tauri::menu::{Menu, MenuItem};
@@ -1770,6 +1860,11 @@ pub fn run() {
 
                 // LAYER 2: Window close cleanup
                 if let Some(window) = app.get_webview_window("main") {
+                    if !startup_launch {
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                    }
+
                     let app_handle = app.handle().clone();
                     window.on_window_event(move |event| {
                         if let tauri::WindowEvent::Destroyed = event {
@@ -1801,6 +1896,8 @@ pub fn run() {
             set_system_proxy,
             update_tray_tooltip,
             check_admin,
+            is_autostart_enabled,
+            set_autostart_enabled,
             check_port_open,
             get_sidecar_config,
             write_dpi_blacklist_config,
