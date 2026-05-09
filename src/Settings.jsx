@@ -1041,14 +1041,22 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                 <div className="v2-section-title">{t.sectionDev}</div>
                 <div className="v2-card">
                   <div className="v2-dev-profile">
-                    <img 
-                      src="/consolaktif-logo.jpg" 
-                      alt="ConsolAktif"
+                    <img
+                      src="/yenilogo.png"
+                      alt="Kelle"
                       className="v2-avatar-img"
                     />
                     <div className="v2-dev-details">
-                      <span className="v2-dev-name">ConsolAktif</span>
+                      <span className="v2-dev-name">Kelle</span>
                       <span className="v2-dev-role">{t.devRole}</span>
+                      <a
+                        className="v2-dev-role"
+                        href="https://github.com/BypaxDPI/BypaxDPI-Windows"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {t.sourceProject}
+                      </a>
                     </div>
                   </div>
                 </div>

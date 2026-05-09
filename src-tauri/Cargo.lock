@@ -3,6 +3,26 @@
 version = 4
 
 [[package]]
+name = "KelleDPI"
+version = "1.0.2"
+dependencies = [
+ "local-ip-address",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-autostart",
+ "tauri-plugin-clipboard-manager",
+ "tauri-plugin-dialog",
+ "tauri-plugin-notification",
+ "tauri-plugin-opener",
+ "tauri-plugin-process",
+ "tauri-plugin-shell",
+ "winapi",
+ "winreg 0.52.0",
+]
+
+[[package]]
 name = "adler2"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -329,26 +349,6 @@ name = "bumpalo"
 version = "3.20.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d20789868f4b01b2f2caec9f5c4e0213b41e3e5702a50157d699ae31ced2fcb"
-
-[[package]]
-name = "KelleDPI"
-version = "1.0.0"
-dependencies = [
- "local-ip-address",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-autostart",
- "tauri-plugin-clipboard-manager",
- "tauri-plugin-dialog",
- "tauri-plugin-notification",
- "tauri-plugin-opener",
- "tauri-plugin-process",
- "tauri-plugin-shell",
- "winapi",
- "winreg 0.52.0",
-]
 
 [[package]]
 name = "bytemuck"

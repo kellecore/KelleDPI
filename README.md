@@ -1,147 +1,85 @@
-<p align="center">
-  <img src="yenilogo.png" width="128" alt="KelleDPI Logo">
-</p>
-
-<h1 align="center">KelleDPI</h1>
-
-> Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows) projesinden klonlanarak geliştirilmiş bir KelleDPI sürümüdür.
-
-<p align="center">
-  <b>Discord ve internet erişim engellerini aşmak için tasarlanmış; askeri düzeyde çökmeye karşı dayanıklı (Anti-Crash), modern ve çok yönlü Yerel Proxy & DPI Bypass aracı.</b>
-</p>
-
----
-<p align="center">
-
-[![KelleDPI İndir!](https://img.shields.io/badge/⬇%20İndir-KelleDPI-107C10?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/kellecore/KelleDPI/releases)
-[![Version v1.0.1 (Son Sürüm)](https://img.shields.io/badge/Version-1.0.1%20Latest-0078D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kellecore/KelleDPI/releases/)
-
-</p>
-
----
-
-
-# 🚀 KelleDPI v1.0.1 (Enterprise-Ready)
-
-> **Discord ve internet erişim engellerini aşmak için tasarlanmış; askeri düzeyde çökmeye karşı dayanıklı (Anti-Crash), modern ve çok yönlü Yerel Proxy & DPI Bypass aracı.**
-
-[![Platform](https://img.shields.io/badge/Platform-Windows-blue.svg)](https://www.microsoft.com/windows)
-[![Architecture](https://img.shields.io/badge/Architecture-x64-green.svg)](https://www.microsoft.com/windows)
-[![Security](https://img.shields.io/badge/Security-Audited-success.svg)](#-siber-güvenlik-ve-kurumsal-standartlar-enterprise-grade)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
----
-
-## 📸 Ekran Görüntüleri
-
 <div align="center">
-  <img src="images/1.jpg" alt="KelleDPI Ekran Görüntüsü 1" width="35%">
-  <img src="images/2.jpg" alt="KelleDPI Ekran Görüntüsü 2" width="35%">
+  <img src="yenilogo.png" width="112" alt="KelleDPI Logo">
+
+# KelleDPI
+
+Windows için modern, açık kaynak DPI bypass aracı.
+
+[![Download](https://img.shields.io/badge/Download-KelleDPI-107C10?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/kellecore/KelleDPI/releases)
+[![Version](https://img.shields.io/badge/Version-1.0.2-0078D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kellecore/KelleDPI/releases)
+[![License](https://img.shields.io/badge/License-MIT-111827?style=for-the-badge)](LICENSE)
+
 </div>
 
 ---
 
-## 📋 İçindekiler
+## Proje hakkında
 
-- [Neden KelleDPI? (Farkımız Ne?)](#-neden-kelledpi-farkımız-ne)
-- [Özellikler](#-özellikler)
-- [3 Kademeli DPI Bypass Motoru](#-3-kademeli-dpi-bypass-motoru)
-- [Siber Güvenlik ve Kurumsal Standartlar](#-siber-güvenlik-ve-kurumsal-standartlar-enterprise-grade)
-- [Sistem Gereksinimleri](#-sistem-gereksinimleri)
-- [Nasıl Çalışır?](#-nasıl-çalışır)
-- [Gizlilik Politikası (Sıfır Log)](#-gizlilik-ve-telemetri-sıfır-log)
+KelleDPI, Windows üzerinde yerel proxy ve DPI bypass tekniklerini kullanarak erişim sorunlarını azaltmayı hedefleyen Tauri tabanlı masaüstü uygulamasıdır. React arayüzü, Rust tabanlı sistem işlemleri ve SpoofDPI motoru ile tek pencereden yönetilebilir.
 
----
+Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows) projesinden fork/klon temel alınarak geliştirilmiştir. KelleDPI tarafında arayüz, Windows entegrasyonu, otomasyon, güvenli kapanış ve kullanıcı deneyimi iyileştirmeleri eklenmiştir.
 
-## 💡 Neden KelleDPI? (Farkımız Ne?)
+## Öne çıkanlar
 
-Piyasadaki diğer CMD/Java tabanlı (GoodbyeDPI, GreenTunnel vs.) kısıtlama aşıcı araçların en büyük sorunu **mavi ekran (BSOD) veya elektrik kesintisi gibi ani çökme durumlarında sistem proxy ayarlarınızı havada bırakarak internetinizi kırmasıdır.** 
+- Modern Windows arayüzü: Tauri v2 + React tabanlı hafif masaüstü deneyimi.
+- Otomatik yönetici başlatma: Gerekli yetki yoksa uygulama UAC ile kendini yeniden başlatır.
+- Akıllı proxy yönetimi: Bağlantı kapanırken sistem proxy ayarlarını temizler.
+- PAC desteği: Yerel ağdaki diğer cihazlar için otomatik proxy yapılandırması sunar.
+- ISP profilleri: Farklı servis sağlayıcılar için hazır bağlantı önerileri içerir.
+- DNS gecikme ölçümü: Desteklenen DNS sunucularını UDP sorgu ile ölçer.
+- Kurtarma araçları: Proxy takılı kalırsa internet bağlantısını onarmaya yardımcı olur.
 
-KelleDPI, baştan aşağı Rust (Tauri v2) altyapısıyla kodlanmış olup **Zombi Process Avcısı, Sentinel Recovery (Hata Kurtarma Sistemi)** ve **Kurumsal Proxy Yedekleme** (Backup & Restore) yetenekleriyle donatılmıştır. Bağlantınız ne şekilde koparsa kopsun, internetiniz daima güvendedir ve eski haline kendi kendini otomatik onarır!
+## Ekran görüntüleri
 
----
+<p align="center">
+  <img src="images/1.jpg" alt="KelleDPI ana ekran" width="35%">
+  <img src="images/2.jpg" alt="KelleDPI ayarlar ekranı" width="35%">
+</p>
 
-## ✨ Özellikler
+## Kurulum
 
-- **Sistem Geneli Akıllı Proxy**: Windows sistem proxy ayarlarını otomatik yönetir, böylece Discord,Roblox ve tarayıcılar ve diğer uygulamalar internet sansürünü tamamen aşar.
+1. [Releases](https://github.com/kellecore/KelleDPI/releases) sayfasını açın.
+2. En güncel `KelleDPI` Windows kurulum dosyasını indirin.
+3. Kurulumu tamamlayın.
+4. Uygulamayı başlatın. Yönetici izni gerekirse KelleDPI UAC penceresiyle kendini yeniden başlatır.
 
-<table>
-  <tr>
-    <td width="35%" align="center">
-      <img src="images/3.jpg" alt="LAN Paylaşımı (QR Kod)" width="60%">
-    </td>
-    <td width="50%" valign="middle">
-      <b>📱 LAN Paylaşımı (WiFi ile Tüm Eve Dağıtım)</b><br><br>
-      Kendi içindeki Asenkron Limitli PAC Sunucusu sayesinde, bilgisayarınız üzerinden telefon, tablet veya konsolunuzu engelsiz ağa bağlayabilirsiniz.<br><br>
-      <i>Ağ Ayarları ➔ Proxy ➔ Otomatik URL girerek veya <b>QR Kod okutarak</b> anında bağlanın.</i>
-    </td>
-  </tr>
-</table>
+## Kullanım
 
-- **DoH (DNS over HTTPS) Şifrelemesi**: ISP'lerin standart Port 53 DNS sorgularını avlamasını önlemek için Cloudflare, Google, AdGuard, Quad9, OpenDNS üzerinden trafiklerinizi Web (HTTPS) katmanında maskeler.
-- **Canlı Soft-Restart (DPI Yenileme)**: Eski uygulamalar gibi DNS/Ayar değiştirdiğinizde uygulamayı söküp takmanız gerekmez. KelleDPI canlı olarak yumuşak restart (Soft-Restart) atarak bağlantıyı yeni DNS protokolüne taşır.
-- **Modern Fluent Arayüz**: Eski çağ siyah konsolların aksine; KelleDPI Windows 11 Fluent UI kurallarına göre tasarlanmış React/Tailwind bir arayüz, Canlı Log Monitörü ve Çoklu Dil desteğine sahiptir.
-- **Sistem Tepsisi (Tray) Zulası**: Tek tıklamayla bildirim çubuğunda sessize geçer (Single-Instance Mimari). Birden fazla uygulamayı yanlışlıkla açıp işletim sisteminizi kilitlemeniz (Race-Condition) engellenmiştir.
+1. Uygulamayı açın.
+2. Gerekirse internet servis sağlayıcınızı seçin.
+3. `Bağlan` butonuna basın.
+4. İşiniz bittiğinde `Bağlantıyı Kes` veya `Çıkış` kullanın.
 
----
+Diğer cihazlarda kullanmak için uygulamadaki `Diğer Cihazları Bağla` bölümünden PAC adresini veya manuel proxy bilgilerini alın.
 
-## ⚙ 3 Kademeli DPI Bypass Motoru
+## Güvenlik ve gizlilik
 
-Güncellenmiş KelleDPI sürümü, internet servis sağlayıcınızın (ISP) dayattığı zorluk derecesine göre anında geçiş yapabileceğiniz 3 farklı bypass motoru sunar:
+KelleDPI uzak VPN servisi değildir. Trafiğinizi üçüncü taraf sunucuya taşımaz, şifre çözmez ve içerik toplamaz. İşlem yerel makinenizde çalışan proxy ve paket parçalama teknikleriyle yapılır.
 
-| Mod | İsim | Özellikler (Alt Taraf: Go Engine) |
-| :---: | :--- | :--- |
-| **0** | **Turbo Mod** | Sadece SNI ayrıştırması uygular. En agresif hız modudur, oyundaki ping'leri (gecikmeleri) asla etkilemez. |
-| **1** | **Dengeli Mod** | HTTPS TLS paketlerini Chunk Split (parçalama) yöntemiyle böler ama sıralarını bozmaz. Türkiye'deki çoğu standart kısıtlamayı (Discord vb.) direkt aşar. |
-| **2** | **Güçlü Mod** | Paketleri hem küçük parçalara böler (Chunk) hem de ISP'nin paket takip sırasını bozar (Disorder). Aşılması en zor katı DNS kapılarında tercih edilir. |
+Uygulama telemetri veya kullanıcı izleme sistemi içermez. Antivirüs yazılımları, yerel proxy ve paket işleme davranışları nedeniyle bazı bileşenleri yanlış pozitif olarak işaretleyebilir.
 
-*Gelişim menüsünde, 4/8/16 bayt'lık ince ayar Chunk Size opsiyonları bulunur.*
+## Kaynak proje
 
----
+KelleDPI geliştirmesi, BypaxDPI Windows projesinin açık kaynak çalışması temel alınarak yapılmıştır:
 
-## 🛡️ Siber Güvenlik ve Kurumsal Standartlar (Enterprise-Grade)
+- Kaynak proje: [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windows)
+- KelleDPI releases: [github.com/kellecore/KelleDPI/releases](https://github.com/kellecore/KelleDPI/releases)
 
-KelleDPI, kod düzeyindedir ve tamamen "0 Zafiyet" denetiminden (Security Audit) geçmiş profesyonel bir mimari kullanır:
+## Geliştirme
 
-1. **Dirty-State Sentinel Recovery:** Uygulama veya PC aniden fişten çekilir/çökerse (BSOD), başlangıca koyduğumuz Sentinel mekanizması geriye çöp kalıp kalmadığını denetler ve bağlantınızı kalıcı olarak temizler (İnternetsiz kalmazsınız).
-2. **Original Proxy Backup:** Eğer zaten işyerinizin/şirketinizin kendine ait bir Proxy ayarı kuruluysa, KelleDPI bunu çalışmadan önce güvenle yedeğe alır; işi bittiğinde proxy ayarlarınızı eski kurumsal haline "Restore" eder.
-3. **Rust Native WinAPI:** CMD/Powershell gibi hantal ve güvenlik uyarısı tetikleyen arka plan yazılımları tamamen kaldırılmıştır; onun yerine Yönetici yetkisi, Registry okumaları Rust'ın kendi Native `windows` crate'i ile 1ms altında güvenceyle yürütülür.
-4. **Thread-Rate Limitli PAC Sunucusu:** Açık WiFi veya ofiste aynı ağdaki yabancı cihazların PAC portunuza göndererek bellek sızdırmasını (DDoS) engellemek adına Asenkron Bağlantı Limiti (Maksimum 50) eklidir. 
-5. **Anti-XSS ve Strict-Scope (RCE Engeli):** Arayüzden gelebilecek tüm Zararlı kod (CSS/JS) ihtimalleri, sıkı `DOMPurify` süzgecinden geçirilir ve Tauri'nin işletim sistemi tetikleme (Shell) yetkileri "Yalnızca Kendi Core'unu" çalıştırabilecek şekilde izole edilmiştir.
+```bash
+npm install
+npm test
+npm run build
+npm run tauri build
+```
 
----
+Proxy motorunu yeniden derlemek için:
 
-## 💻 Sistem Gereksinimleri
+```bash
+npm run build-proxy
+```
 
-- **İşletim Sistemi**: Windows 10 veya Windows 11
-- **Mimari**: x64 İşlemci (RAM kullanımı inanılmaz düşüktür; WebView2 sayesinde genelde ~60 MB)
-- **Yetki**: Proxy yönetimi bazı yerel network ayarlarında UAC (Yönetici İzni) gerektireceğinden uygulama "Yönetici" olarak çalışmayı tavsiye edebilir.
+## Lisans
 
----
-
-## 🔧 Nasıl Çalışır? (Kurulum)
-
-1. **İndirin**: Projenin [Releases sayfası](https://github.com/kellecore/KelleDPI/releases) bağlantısına gidip en güncel versiyonun `.exe / .msi` dosyasını bilgisayarınıza indirin.
-2. **Kurun**: Uygulamayı çalıştırın. Kendi yerleşik (gömülü) motorunu kullanacağı için WinPcap vb. hiçbir ek program / sürücü yüklemenize **asla** gerek yoktur.
-3. **Açın ve Tıklayın**: İsterseniz Ayarlar (Dişli İkonu) sekmesinden *DoH DNS*, *Güçlü Mod* ve *LAN Paylaşımı (Telefon)* özelliklerini zevkinize göre açıp; ana ekrandaki **BAĞLAN** tuşuna dokunmanız yeterlidir. Ekranda **Güvenli** yazdığı an Discord ve ötesindeki dünyaya aitsiniz.
-
----
-
-## 🔒 Gizlilik ve Telemetri (Sıfır Log)
-
-> [!IMPORTANT]
-> KelleDPI %100 Anonimdir ve **HERHANGİ BİR TELEMETRİ VEYA VERİ TOPLAMA YAPISI BARINDIRMAZ.** 
-> Hiçbir IP adresiniz, girdiğiniz internet siteleri (URL'ler), işletim sistemi bilgileriniz ne bir sunucuya ne de bize asla gönderilmez. Uygulama logları RAM'de (geçici hafızada) işlenir; program kapatıldığı saniye kainattan silinir. 
-
----
-
-## ⚖️ Sorumluluk Reddi
-
-- **Bu yazılım yerel ağ problemleri eğitimi, soket debugging ve erişilebilirlik laboratuvarı (Bypass algoritmalarını simüle etme) amaçlı yazılmıştır.**
-- KelleDPI yalnızca local makinenizde giden HTTPS trafiğinin TLS paketlerini (SNI katmanı) bölerek yeniden organize eder (Packet Fragmentation). Herhangi bir uzak VPN sunucusu ile veri alışverişi (Şifre çözücü tünel) sağlamaz, bu yüzden bankacılık dahil tüm işlemleriniz ISP/Browser ile kendi aranızdadır.
-- Yazılım kişisel kullanıma açık ve ücretsizdir; ticari, yasadışı ya da manipülatif amaçlı siber ihlaller hedefinde kullanılamaz. KelleDPI ile gerçekleştirilen tüm erişim faaliyetleri ve oluşacak teknik/yasal yükümlülükler tamamen son kullanıcıya (kullanıcıya) aittir. Üretici kanun yolları için sorumluluk reddinde bulunur. 
-
-<br>
-<div align="center">
-  <strong>🔥 KelleDPI ile kesintisiz ve şeffaf internete hoş geldiniz!</strong>
-</div>
+Bu proje MIT lisansı ile yayınlanır. Ayrıntılar için [LICENSE](LICENSE) dosyasına bakın.

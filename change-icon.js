@@ -40,8 +40,8 @@ async function main() {
             'version-string': {
                 ProductName: 'KelleDPI',
                 FileDescription: 'KelleDPI Service',
-                CompanyName: 'ConsolAktif',
-                LegalCopyright: 'Copyright © 2026 ConsolAktif'
+                CompanyName: 'Kelle',
+                LegalCopyright: 'Copyright © 2026 Kelle'
             }
         });
         console.log('Icon updated successfully!');

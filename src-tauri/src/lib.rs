@@ -1407,6 +1407,41 @@ fn check_admin() -> bool {
     }
 }
 
+#[cfg(target_os = "windows")]
+fn relaunch_as_admin() -> bool {
+    use std::os::windows::ffi::OsStrExt;
+    use std::ptr::null_mut;
+    use winapi::um::shellapi::ShellExecuteW;
+    use winapi::um::winuser::SW_SHOWNORMAL;
+
+    let exe = match std::env::current_exe() {
+        Ok(path) => path,
+        Err(err) => {
+            eprintln!("[STARTUP] Admin relaunch path error: {}", err);
+            return false;
+        }
+    };
+
+    let operation: Vec<u16> = std::ffi::OsStr::new("runas")
+        .encode_wide()
+        .chain(Some(0))
+        .collect();
+    let file: Vec<u16> = exe.as_os_str().encode_wide().chain(Some(0)).collect();
+
+    unsafe {
+        let result = ShellExecuteW(
+            null_mut(),
+            operation.as_ptr(),
+            file.as_ptr(),
+            null_mut(),
+            null_mut(),
+            SW_SHOWNORMAL,
+        ) as isize;
+
+        result > 32
+    }
+}
+
 fn perform_app_exit(app: &tauri::AppHandle) {
     // clear_system_proxy zaten RunEvent::ExitRequested'da çağrılacak
     // Burada tekrar çağırma — app.exit() ExitRequested tetikler
@@ -1481,9 +1516,8 @@ async fn check_dns_latency(dns_ip: String) -> Result<u32, String> {
 
     let query_id = 0x4b44u16;
     let query = [
-        0x4b, 0x44, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, b'e',
-        b'x', b'a', b'm', b'p', b'l', b'e', 0x03, b'c', b'o', b'm', 0x00, 0x00, 0x01, 0x00,
-        0x01,
+        0x4b, 0x44, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, b'e', b'x',
+        b'a', b'm', b'p', b'l', b'e', 0x03, b'c', b'o', b'm', 0x00, 0x00, 0x01, 0x00, 0x01,
     ];
     let addr = format!("{}:53", dns_ip);
     let mut response = [0u8; 512];
@@ -1586,6 +1620,16 @@ fn quit_app(app: tauri::AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    #[cfg(target_os = "windows")]
+    {
+        if !check_admin() {
+            if relaunch_as_admin() {
+                std::process::exit(0);
+            }
+            eprintln!("[STARTUP] Yönetici izni verilmedi veya UAC başlatılamadı.");
+        }
+    }
+
     // P0-FIX: Single-instance enforcement — aynı anda sadece bir KelleDPI çalışabilir
     #[cfg(target_os = "windows")]
     {

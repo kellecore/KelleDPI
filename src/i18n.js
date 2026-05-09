@@ -269,7 +269,8 @@ const translations = {
 
     // Section: Developer
     sectionDev: 'GELİŞTİRİCİ',
-    devRole: 'KelleDPI Geliştiricisi',
+    devRole: 'KelleDPI açık kaynak projesi',
+    sourceProject: 'Kaynak proje: BypaxDPI Windows',
 
     // Section: Important Notice
     sectionNotice: 'ÖNEMLİ BİLGİ',
@@ -559,7 +560,8 @@ const translations = {
 
     // Section: Developer
     sectionDev: 'DEVELOPER',
-    devRole: 'KelleDPI Developer',
+    devRole: 'KelleDPI open-source project',
+    sourceProject: 'Source project: BypaxDPI Windows',
 
     // Section: Important Notice
     sectionNotice: 'IMPORTANT',
