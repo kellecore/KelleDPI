@@ -32,8 +32,8 @@ Bu proje, [BypaxDPI/BypaxDPI-Windows](https://github.com/BypaxDPI/BypaxDPI-Windo
 ## Ekran görüntüleri
 
 <p align="center">
-  <img src="images/1.jpg" alt="KelleDPI ana ekran" width="35%">
-  <img src="images/2.jpg" alt="KelleDPI ayarlar ekranı" width="35%">
+  <img src="1.png" alt="KelleDPI hazır ekranı" width="35%">
+  <img src="2.png" alt="KelleDPI aktif ekranı" width="35%">
 </p>
 
 ## Kurulum
