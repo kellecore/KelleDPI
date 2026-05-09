@@ -623,8 +623,6 @@ function App() {
       if (configRef.current.dpiBlacklistEnabled) {
         const dpiBlacklistDomains = normalizeDpiBlacklistText(configRef.current.dpiBlacklistText);
         if (dpiBlacklistDomains.length > 0) {
-          const configPath = await invoke("write_dpi_blacklist_config", { domains: dpiBlacklistDomains });
-          args.push("--config", configPath);
           customDpiListActive = true;
           customDpiListDomains = dpiBlacklistDomains;
           addLog(t.logDpiBlacklistEnabled(dpiBlacklistDomains.length), "info", {
@@ -669,9 +667,7 @@ function App() {
       // 🛑 Önemli: Sürücü kontrolü yap (Rust tarafındaki check_driver komutunu kullan)
       const hasDriver = await invoke('check_driver');
       
-      if (customDpiListActive) {
-        args.push("--https-skip");
-      } else if (dpiMethod === "2") {
+      if (dpiMethod === "2") {
         const advancedBypass = configRef.current.advancedBypass !== false; // default true if driver installed
         if (hasDriver && advancedBypass) {
           // Sürücü var ve gelişmiş bypass açık: Fake packet ile en güçlü atlatma
