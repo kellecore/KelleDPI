@@ -43,6 +43,7 @@ jobs:
           Expand-Archive spoofdpi-v1.2.1.zip -DestinationPath spoofdpi-src
           $source = Get-ChildItem spoofdpi-src -Directory | Select-Object -First 1
           New-Item -ItemType Directory -Force SpoofDPI-1.2.1 | Out-Null
+          Remove-Item -Recurse -Force SpoofDPI-1.2.1\SpoofDPI-1.2.1 -ErrorAction SilentlyContinue
           Move-Item $source.FullName SpoofDPI-1.2.1\SpoofDPI-1.2.1
 
       - name: Build proxy sidecar

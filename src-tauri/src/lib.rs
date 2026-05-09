@@ -1236,7 +1236,7 @@ fn build_dpi_blacklist_config(domains: &[String]) -> Result<String, String> {
         .join(", ");
 
     Ok(format!(
-        "[[rules]]\nname = \"dpi blacklist\"\npriority = 100\nmatch = {{ domain = [{}] }}\nhttps = {{ split-mode = \"chunk\", chunk-size = 1, fake-count = 3 }}\n",
+        "[policy]\n[[policy.overrides]]\nname = \"dpi blacklist\"\npriority = 100\nmatch = {{ domain = [{}] }}\nhttps = {{ split-mode = \"chunk\", chunk-size = 1, fake-count = 3, skip = false }}\n",
         domains_toml
     ))
 }
@@ -1259,7 +1259,8 @@ mod tests {
             build_dpi_blacklist_config(&vec!["discord.com".to_string(), "roblox.com".to_string()])
                 .unwrap();
 
-        assert!(config.contains("[[rules]]"));
+        assert!(config.contains("[policy]"));
+        assert!(config.contains("[[policy.overrides]]"));
         assert!(config.contains("\"discord.com\""));
         assert!(config.contains("\"*.discord.com\""));
         assert!(config.contains("\"roblox.com\""));
@@ -1267,6 +1268,7 @@ mod tests {
         assert!(config.contains("split-mode = \"chunk\""));
         assert!(config.contains("chunk-size = 1"));
         assert!(config.contains("fake-count = 3"));
+        assert!(config.contains("skip = false"));
     }
 
     #[test]

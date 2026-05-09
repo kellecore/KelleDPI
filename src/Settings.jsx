@@ -22,8 +22,8 @@ const Toggle = ({ checked, onChange }) => (
   </div>
 );
 
-const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies }) => {
-  const [activeTab, setActiveTab] = useState('general');
+const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies, initialTab = 'general' }) => {
+  const [activeTab, setActiveTab] = useState(initialTab);
   const scrollRef = useRef(null);
 
   const[expandedISP, setExpandedISP] = useState(null);

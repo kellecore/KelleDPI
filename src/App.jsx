@@ -68,6 +68,7 @@ function App() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showLogs, setShowLogs] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [settingsInitialTab, setSettingsInitialTab] = useState('general');
   const [isAdmin, setIsAdmin] = useState(true);
   const [isOnline, setIsOnline] = useState(navigator.onLine); // ✅ Internet Durumu
   const [dnsLatencies, setDnsLatencies] = useState({}); // ✅ #5: DNS ping sonuçları kalcı
@@ -146,6 +147,9 @@ function App() {
   // ✅ İlk giriş overlay state
   const [showFirstRunISS, setShowFirstRunISS] = useState(() => {
     return !localStorage.getItem('kelle_first_run_done');
+  });
+  const [showGovNotice, setShowGovNotice] = useState(() => {
+    return !localStorage.getItem('kelle_gov_notice_done');
   });
 
   const [config, setConfig] = useState(() => {
@@ -238,6 +242,29 @@ function App() {
       localStorage.setItem("kelle_config", JSON.stringify(newConfig));
       return newConfig;
     });
+  };
+
+  const closeGovNotice = () => {
+    localStorage.setItem('kelle_gov_notice_done', 'true');
+    setShowGovNotice(false);
+  };
+
+  const enableDefaultCustomList = () => {
+    updateConfig({
+      dpiBlacklistEnabled: true,
+      dpiBlacklistText: DEFAULT_DPI_BLACKLIST_TEXT,
+    });
+    closeGovNotice();
+  };
+
+  const openCustomListSettings = () => {
+    updateConfig({
+      dpiBlacklistEnabled: true,
+      dpiBlacklistText: configRef.current.dpiBlacklistText || DEFAULT_DPI_BLACKLIST_TEXT,
+    });
+    closeGovNotice();
+    setSettingsInitialTab('network');
+    setShowSettings(true);
   };
 
   // Custom Confirm State
@@ -590,11 +617,14 @@ function App() {
         "--log-level", "info",
       ];
 
+      let customDpiListActive = false;
+
       if (configRef.current.dpiBlacklistEnabled) {
         const dpiBlacklistDomains = normalizeDpiBlacklistText(configRef.current.dpiBlacklistText);
         if (dpiBlacklistDomains.length > 0) {
           const configPath = await invoke("write_dpi_blacklist_config", { domains: dpiBlacklistDomains });
           args.push("--config", configPath);
+          customDpiListActive = true;
           addLog(t.logDpiBlacklistEnabled(dpiBlacklistDomains.length), "info", {
             i18nKey: "logDpiBlacklistEnabled",
             i18nParams: [dpiBlacklistDomains.length],
@@ -637,7 +667,9 @@ function App() {
       // 🛑 Önemli: Sürücü kontrolü yap (Rust tarafındaki check_driver komutunu kullan)
       const hasDriver = await invoke('check_driver');
       
-      if (dpiMethod === "2") {
+      if (customDpiListActive) {
+        args.push("--https-skip");
+      } else if (dpiMethod === "2") {
         const advancedBypass = configRef.current.advancedBypass !== false; // default true if driver installed
         if (hasDriver && advancedBypass) {
           // Sürücü var ve gelişmiş bypass açık: Fake packet ile en güçlü atlatma
@@ -1818,9 +1850,110 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* İlk Giriş ISS Seçim Overlay */}
       <AnimatePresence>
-        {isAdmin && showFirstRunISS && !showSettings && (
+        {isAdmin && showGovNotice && !showSettings && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              zIndex: 99999,
+              background: "rgba(9, 9, 11, 0.96)",
+              position: "fixed",
+              top: 0, left: 0, right: 0, bottom: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "1.25rem",
+            }}
+          >
+            <motion.div
+              initial={{ y: 20, scale: 0.98 }}
+              animate={{ y: 0, scale: 1 }}
+              exit={{ y: 20, scale: 0.98 }}
+              style={{
+                width: "100%",
+                maxWidth: "440px",
+                background: "#111113",
+                border: "1px solid rgba(249, 115, 22, 0.22)",
+                borderRadius: "18px",
+                padding: "1.25rem",
+                boxShadow: "0 24px 80px rgba(0, 0, 0, 0.45)",
+              }}
+            >
+              <div style={{ display: "flex", gap: "12px", alignItems: "flex-start", marginBottom: "1rem" }}>
+                <div style={{
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "12px",
+                  background: "rgba(249, 115, 22, 0.14)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  <AlertTriangle size={22} color="#fb923c" />
+                </div>
+                <div>
+                  <h2 style={{ margin: 0, color: "#fff", fontSize: "1.05rem", fontWeight: 700 }}>{t.govNoticeTitle}</h2>
+                  <p style={{ margin: "0.45rem 0 0", color: "#a1a1aa", fontSize: "0.86rem", lineHeight: 1.55 }}>{t.govNoticeDesc}</p>
+                </div>
+              </div>
+
+              <div style={{
+                background: "rgba(255, 255, 255, 0.04)",
+                border: "1px solid rgba(255, 255, 255, 0.07)",
+                borderRadius: "12px",
+                padding: "0.85rem",
+                color: "#d4d4d8",
+                fontSize: "0.82rem",
+                lineHeight: 1.5,
+                marginBottom: "1rem",
+              }}>
+                {t.govNoticeHint}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
+                <button
+                  onClick={enableDefaultCustomList}
+                  style={{
+                    width: "100%",
+                    background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                    color: "white",
+                    padding: "0.85rem",
+                    border: "none",
+                    borderRadius: "12px",
+                    fontSize: "0.95rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  {t.govNoticeDefault}
+                </button>
+                <button
+                  onClick={openCustomListSettings}
+                  style={{
+                    width: "100%",
+                    background: "rgba(255, 255, 255, 0.06)",
+                    color: "#f8fafc",
+                    padding: "0.85rem",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    borderRadius: "12px",
+                    fontSize: "0.95rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  {t.govNoticeEdit}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isAdmin && showFirstRunISS && !showGovNotice && !showSettings && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -2144,7 +2277,7 @@ function App() {
 
       {/* Bottom Navigation */}
       <nav className="bottom-nav">
-        <button className="nav-btn" onClick={() => setShowSettings(true)}>
+        <button className="nav-btn" onClick={() => { setSettingsInitialTab('general'); setShowSettings(true); }}>
           <SettingsIcon size={22} strokeWidth={2} />
           <span>{t.navSettings}</span>
         </button>
@@ -2795,6 +2928,7 @@ function App() {
           updateConfig={updateConfig}
           dnsLatencies={dnsLatencies}
           setDnsLatencies={setDnsLatencies}
+          initialTab={settingsInitialTab}
         />
       )}
     </div>

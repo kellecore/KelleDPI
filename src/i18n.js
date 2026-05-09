@@ -57,6 +57,11 @@ const translations = {
     modalHost: 'Sunucu (Host)',
     modalPort: 'Port',
     modalTutorial: 'Nasıl Yapılır? (Rehber)',
+    govNoticeTitle: 'Resmi sitelerde bağlantı sorunu yaşarsanız',
+    govNoticeDesc: '.gov.tr, gov uzantılı yabancı resmi siteler veya IP ile açılan özel sunucularda bağlantı sorunu görürseniz Custom List modunu kullanın.',
+    govNoticeHint: 'Custom List açıkken yalnızca listedeki domainlere güçlü bypass uygulanır; listede olmayan resmi siteler ve IP adresleri doğrudan bırakılır.',
+    govNoticeDefault: 'Varsayılanı Aç',
+    govNoticeEdit: 'Düzenlemeye Git',
 
     // ===== APP.JSX - Admin Modal =====
     adminTitle: 'Yönetici İzni Gerekli',
@@ -348,6 +353,11 @@ const translations = {
     modalHost: 'Server (Host)',
     modalPort: 'Port',
     modalTutorial: 'How To? (Guide)',
+    govNoticeTitle: 'If official sites have connection issues',
+    govNoticeDesc: 'If .gov.tr, foreign gov domains, or private servers opened by IP fail to load, use Custom List mode.',
+    govNoticeHint: 'When Custom List is on, strong bypass is applied only to listed domains; official sites and IP addresses that are not listed are left direct.',
+    govNoticeDefault: 'Enable Defaults',
+    govNoticeEdit: 'Edit List',
 
     // ===== APP.JSX - Admin Modal =====
     adminTitle: 'Administrator Required',

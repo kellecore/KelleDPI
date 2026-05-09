@@ -35,7 +35,7 @@ export const DOH_MAP = {
 // ===== Uygulama Sabitleri =====
 export const APP = {
   name: "KelleDPI",
-  version: "1.0.1",
+  version: "1.0.5",
   designWidth: 380,
   designHeight: 700,
   maxLogs: 100,
