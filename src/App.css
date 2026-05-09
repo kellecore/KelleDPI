@@ -853,6 +853,7 @@ body {
 
 .v2-item-text {
   flex: 1;
+  min-width: 0;
 }
 
 .v2-item-text h3 {
@@ -918,6 +919,7 @@ body {
 /* Toggle Switch - Modern */
 .v2-toggle {
   position: relative;
+  flex: 0 0 46px;
   width: 46px;
   height: 24px;
   border: 1px solid var(--border-subtle);

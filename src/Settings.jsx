@@ -707,8 +707,8 @@ const Settings = ({ onBack, config, updateConfig, dnsLatencies, setDnsLatencies 
                       <Shield size={20} />
                     </div>
                     <div className="v2-item-text" style={{ gap: 8, flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, width: '100%' }}>
-                        <div style={{ minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, width: '100%' }}>
+                        <div style={{ flex: '1 1 auto', minWidth: 0 }}>
                           <h3 style={{ color: '#fdba74' }}>{t.dpiBlacklistTitle}</h3>
                           <p>{t.dpiBlacklistDesc}</p>
                         </div>
