@@ -1,6 +1,6 @@
 [package]
 name = "KelleDPI"
-version = "1.0.6"
+version = "1.0.7"
 description = "Dpi Bypass Tool."
 authors = ["Kelle"]
 edition = "2021"

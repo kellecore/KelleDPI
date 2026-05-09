@@ -42,6 +42,7 @@ mod registry {
             .create_subkey(INTERNET_SETTINGS)
             .map_err(|e| format!("Registry açılamadı: {}", e))?;
 
+        let _ = key.delete_value("AutoConfigURL");
         key.set_value("ProxyServer", &format!("{}:{}", proxy_addr, port))
             .map_err(|e| format!("ProxyServer: {}", e))?;
         key.set_value("ProxyEnable", &1u32)
@@ -126,6 +127,21 @@ mod registry {
         Ok(())
     }
 
+    pub fn set_pac_proxy(pac_url: &str) -> Result<(), String> {
+        let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+        let (key, _) = hkcu
+            .create_subkey(INTERNET_SETTINGS)
+            .map_err(|e| format!("Registry aÃ§Ä±lamadÄ±: {}", e))?;
+
+        key.set_value("AutoConfigURL", &pac_url)
+            .map_err(|e| format!("AutoConfigURL: {}", e))?;
+        key.set_value("ProxyEnable", &0u32)
+            .map_err(|e| format!("ProxyEnable: {}", e))?;
+        let _ = key.delete_value("ProxyServer");
+        let _ = key.delete_value("ProxyOverride");
+        Ok(())
+    }
+
     pub fn clear_proxy() -> Result<(), String> {
         let hkcu = RegKey::predef(HKEY_CURRENT_USER);
         let (key, _) = hkcu
@@ -144,12 +160,19 @@ mod registry {
         server: &str,
         enable: u32,
         override_val: Option<&str>,
+        auto_config_url: Option<&str>,
     ) -> Result<(), String> {
         let hkcu = RegKey::predef(HKEY_CURRENT_USER);
         let (key, _) = hkcu
             .create_subkey(INTERNET_SETTINGS)
             .map_err(|e| format!("Registry açılamadı: {}", e))?;
 
+        if let Some(url) = auto_config_url {
+            key.set_value("AutoConfigURL", &url)
+                .map_err(|e| format!("AutoConfigURL: {}", e))?;
+        } else {
+            let _ = key.delete_value("AutoConfigURL");
+        }
         key.set_value("ProxyServer", &server)
             .map_err(|e| format!("ProxyServer: {}", e))?;
         key.set_value("ProxyEnable", &enable)
@@ -181,6 +204,7 @@ struct OriginalProxySettings {
     proxy_enable: Option<u32>,
     proxy_server: Option<String>,
     proxy_override: Option<String>,
+    auto_config_url: Option<String>,
 }
 
 /// Orijinal proxy ayarlarını saklayan global state
@@ -196,6 +220,7 @@ fn backup_proxy_settings() {
         proxy_enable: registry::read_value_dword("ProxyEnable"),
         proxy_server: registry::read_value_string("ProxyServer"),
         proxy_override: registry::read_value_string("ProxyOverride"),
+        auto_config_url: registry::read_value_string("AutoConfigURL"),
     };
 
     if let Ok(mut guard) = original_proxy_store().lock() {
@@ -227,9 +252,21 @@ fn restore_proxy_settings() -> bool {
                 eprintln!("[PROXY-RESTORE] Kurumsal proxy geri yükleniyor: {}", server);
 
                 let enable_val = orig.proxy_enable.unwrap_or(0);
-                let _ = registry::restore_proxy(server, enable_val, orig.proxy_override.as_deref());
+                let _ = registry::restore_proxy(
+                    server,
+                    enable_val,
+                    orig.proxy_override.as_deref(),
+                    orig.auto_config_url.as_deref(),
+                );
 
                 return true; // Geri yükleme yapıldı, silme işlemine geçme
+            }
+        }
+        if let Some(ref url) = orig.auto_config_url {
+            if !url.is_empty() {
+                eprintln!("[PROXY-RESTORE] PAC proxy geri yÃ¼kleniyor: {}", url);
+                let _ = registry::set_pac_proxy(url);
+                return true;
             }
         }
     }
@@ -450,6 +487,48 @@ fn make_pac_body(lan_ip: &str, proxy_port: u16) -> String {
 }}"#,
         proxy
     )
+}
+
+fn pac_string_escape(value: &str) -> String {
+    value.replace('\\', "\\\\").replace('"', "\\\"")
+}
+
+fn make_custom_list_pac_body(proxy_port: u16, domains: &[String]) -> Result<String, String> {
+    let proxy = format!("127.0.0.1:{}", proxy_port);
+    let mut cleaned: Vec<String> = Vec::new();
+    for domain in domains {
+        let domain = domain.trim().to_ascii_lowercase();
+        if !is_valid_blacklist_domain(&domain) {
+            return Err(format!("GeÃ§ersiz domain: {}", domain));
+        }
+        if !cleaned.contains(&domain) {
+            cleaned.push(domain);
+        }
+    }
+
+    if cleaned.is_empty() {
+        return Err("DPI blacklist listesi boÅŸ.".to_string());
+    }
+
+    let rules = cleaned
+        .iter()
+        .map(|domain| {
+            let escaped = pac_string_escape(domain);
+            format!(r#"host === "{}" || shExpMatch(host, "*.{}")"#, escaped, escaped)
+        })
+        .collect::<Vec<_>>()
+        .join(" ||\n        ");
+
+    Ok(format!(
+        r#"function FindProxyForURL(url, host) {{
+    host = host.toLowerCase();
+    if ({}) {{
+        return "PROXY {}; DIRECT";
+    }}
+    return "DIRECT";
+}}"#,
+        rules, proxy
+    ))
 }
 
 fn make_setup_html(pac_url: &str) -> String {
@@ -802,6 +881,7 @@ fn handle_pac_request(
 #[derive(serde::Serialize)]
 struct PacResponse {
     pac_port: u16,
+    pac_url: String,
 }
 
 /// P1-FIX: PAC sunucusu eşzamanlı bağlantı limiti
@@ -881,12 +961,16 @@ fn manage_firewall_rules(enable: bool, proxy_port: u16, pac_port: u16) {
 #[tauri::command]
 fn start_pac_server(
     proxy_port: u16,
+    domains: Option<Vec<String>>,
     state: tauri::State<'_, PacServerState>,
 ) -> Result<PacResponse, String> {
     let lan_ip = get_safe_lan_ip();
 
     // PAC body'yi güncelle — proxy moduna geç
-    let new_pac_body = make_pac_body(&lan_ip, proxy_port);
+    let new_pac_body = match domains {
+        Some(domains) => make_custom_list_pac_body(proxy_port, &domains)?,
+        None => make_pac_body(&lan_ip, proxy_port),
+    };
     if let Ok(mut body) = state.pac_body.lock() {
         *body = new_pac_body;
     }
@@ -901,6 +985,7 @@ fn start_pac_server(
         }
         return Ok(PacResponse {
             pac_port: current_port,
+            pac_url: format!("http://127.0.0.1:{}/proxy.pac", current_port),
         });
     }
     drop(guard); // Lock'u serbest bırak
@@ -996,6 +1081,7 @@ fn start_pac_server(
     *guard = Some(join_handle);
     Ok(PacResponse {
         pac_port: found_port,
+        pac_url: format!("http://127.0.0.1:{}/proxy.pac", found_port),
     })
 }
 
@@ -1276,6 +1362,51 @@ mod tests {
         let result = build_dpi_blacklist_config(&vec!["bad domain".to_string()]);
         assert!(result.is_err());
     }
+
+    #[test]
+    fn custom_list_pac_only_proxies_listed_domains() {
+        let pac = make_custom_list_pac_body(8080, &vec!["discord.com".to_string()]).unwrap();
+
+        assert!(pac.contains("PROXY 127.0.0.1:8080; DIRECT"));
+        assert!(pac.contains("host === \"discord.com\""));
+        assert!(pac.contains("shExpMatch(host, \"*.discord.com\")"));
+        assert!(pac.contains("return \"DIRECT\""));
+    }
+}
+
+#[tauri::command]
+fn set_system_pac_proxy(pac_url: String) -> Result<(), String> {
+    let _guard = acquire_proxy_lock();
+
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+
+        const CREATE_NO_WINDOW: u32 = 0x08000000;
+
+        if !registry::can_access() {
+            return Err(
+                "Registry yazma izni yok. Uygulamayı yönetici olarak çalıştırın.".to_string(),
+            );
+        }
+
+        backup_proxy_settings();
+        registry::set_pac_proxy(&pac_url).map_err(|e| {
+            let _ = registry::clear_proxy();
+            format!("PAC proxy ayarlanamadı, geri alındı: {}", e)
+        })?;
+        notify_proxy_change();
+        let _ = std::process::Command::new("netsh")
+            .args(&["winhttp", "reset", "proxy"])
+            .creation_flags(CREATE_NO_WINDOW)
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .status();
+    }
+
+    let _ = std::fs::write(sentinel_path(), format!("pac={}", pac_url));
+
+    Ok(())
 }
 
 #[tauri::command]
@@ -1896,6 +2027,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             clear_system_proxy,
             set_system_proxy,
+            set_system_pac_proxy,
             update_tray_tooltip,
             check_admin,
             is_autostart_enabled,

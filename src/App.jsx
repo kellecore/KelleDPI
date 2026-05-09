@@ -618,6 +618,7 @@ function App() {
       ];
 
       let customDpiListActive = false;
+      let customDpiListDomains = [];
 
       if (configRef.current.dpiBlacklistEnabled) {
         const dpiBlacklistDomains = normalizeDpiBlacklistText(configRef.current.dpiBlacklistText);
@@ -625,6 +626,7 @@ function App() {
           const configPath = await invoke("write_dpi_blacklist_config", { domains: dpiBlacklistDomains });
           args.push("--config", configPath);
           customDpiListActive = true;
+          customDpiListDomains = dpiBlacklistDomains;
           addLog(t.logDpiBlacklistEnabled(dpiBlacklistDomains.length), "info", {
             i18nKey: "logDpiBlacklistEnabled",
             i18nParams: [dpiBlacklistDomains.length],
@@ -806,12 +808,18 @@ function App() {
           setCurrentPort(port);
           currentPortRef.current = port;
           try {
-            await invoke("set_system_proxy", { port, enableWinhttp: configRef.current.enableWinhttp !== false });
+            if (customDpiListActive) {
+              const pacResult = await invoke("start_pac_server", { proxyPort: port, domains: customDpiListDomains });
+              if (pacResult?.pac_port) setPacPort(pacResult.pac_port);
+              await invoke("set_system_pac_proxy", { pacUrl: pacResult?.pac_url || `http://127.0.0.1:${pacResult?.pac_port}/proxy.pac` });
+            } else {
+              await invoke("set_system_proxy", { port, enableWinhttp: configRef.current.enableWinhttp !== false });
+            }
             addLog(t.logProxySet(port), "success", {
               i18nKey: "logProxySet",
               i18nParams: [port],
             });
-            if (configRef.current.enableWinhttp !== false) {
+            if (!customDpiListActive && configRef.current.enableWinhttp !== false) {
               addLog(t.logWinHttpEnabled, "warn", { i18nKey: "logWinHttpEnabled" });
             }
           } catch (err) {
@@ -831,10 +839,10 @@ function App() {
           addLog(t.logConnected, "success", { i18nKey: "logConnected" });
           notifyUser("Kelle", t.logConnected, "connect");
           updateTrayTooltip("connected");
-          if (configRef.current.lanSharing) {
+          if (configRef.current.lanSharing && !customDpiListActive) {
             (async () => {
               try {
-                const pacResult = await invoke("start_pac_server", { proxyPort: port });
+                const pacResult = await invoke("start_pac_server", { proxyPort: port, domains: null });
                 if (pacResult?.pac_port) setPacPort(pacResult.pac_port);
                 addLog(t.logPacStarted, "success", {
                   i18nKey: "logPacStarted",
@@ -999,7 +1007,13 @@ function App() {
           currentPortRef.current = port;
 
           try {
-            await invoke("set_system_proxy", { port: port, enableWinhttp: configRef.current.enableWinhttp !== false });
+            if (customDpiListActive) {
+              const pacResult = await invoke("start_pac_server", { proxyPort: port, domains: customDpiListDomains });
+              if (pacResult?.pac_port) setPacPort(pacResult.pac_port);
+              await invoke("set_system_pac_proxy", { pacUrl: pacResult?.pac_url || `http://127.0.0.1:${pacResult?.pac_port}/proxy.pac` });
+            } else {
+              await invoke("set_system_proxy", { port: port, enableWinhttp: configRef.current.enableWinhttp !== false });
+            }
           } catch (err) {
             addLog(t.logProxySetError(err), "error", {
               i18nKey: "logProxySetError",
@@ -1016,9 +1030,9 @@ function App() {
           addLog(t.logConnected, "info", { i18nKey: "logConnected" });
           notifyUser("KelleDPI", t.logConnected, "connect");
           updateTrayTooltip("connected"); // ✅ Auto-connect başarılı
-          if (configRef.current.lanSharing) {
+          if (configRef.current.lanSharing && !customDpiListActive) {
             try {
-              const pacResult = await invoke("start_pac_server", { proxyPort: port });
+              const pacResult = await invoke("start_pac_server", { proxyPort: port, domains: null });
               if (pacResult?.pac_port) setPacPort(pacResult.pac_port);
               addLog(t.logPacStarted, "success", { i18nKey: "logPacStarted" });
             } catch (e) {
